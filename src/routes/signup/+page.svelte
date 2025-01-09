@@ -35,12 +35,12 @@
 	</FlexContainer>
 
 	<p class="text-white">
-		Don't have an account yet? Click <StyledLink text="here" link="/signup" /> to sign-up!
+		Already have an account yet? Click <StyledLink text="here" link="/login" /> to login!
 	</p>
 
 	<FlexContainer extensible={false} styling="h-3/5">
-		<StyledText text="Login" />
-		<form method="POST" action="?/login" class="flex flex-1 flex-col justify-evenly">
+		<StyledText text="Sign up" />
+		<form method="POST" action="?/signup" class="flex flex-1 flex-col justify-evenly">
 			<FormField label="email:" labelId="email" labelStyling={'text-secondary'}>
 				<input
 					id="email"
@@ -62,12 +62,12 @@
 					oninput={resetFormError}
 				/></FormField
 			>
-			<StyledButton text="Login" />
+			<StyledButton text="Sign up" />
 		</form>
 
 		{#if form?.message}
 			<div class="fixed bottom-4">
-				<StyledError text="Failed to login: {form.message}" />
+				<StyledError text="Failed to sign up: {form.message}" />
 			</div>
 		{/if}
 	</FlexContainer>

@@ -10,6 +10,9 @@ The project is working and deployed already but provide minimal features. You ca
 
 # Badges
 
+[![Build and push service](https://github.com/Knoblauchpilze/galactic-sovereign-frontend/actions/workflows/build-and-push.yml/badge.svg)](https://github.com/Knoblauchpilze/galactic-sovereign-frontend/actions/workflows/build-and-push.yml)
+
+[![codecov](https://codecov.io/gh/Knoblauchpilze/galactic-sovereign-frontend/graph/badge.svg?token=5RSN3CIX1G)](https://codecov.io/gh/Knoblauchpilze/galactic-sovereign-frontend)
 
 # Installation
 

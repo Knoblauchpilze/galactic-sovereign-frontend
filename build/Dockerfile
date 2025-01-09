@@ -1,8 +1,8 @@
 FROM node:22 AS builder
-ARG API_BASE_URL="http://my-awesome-service:80/v1/my-awesome-service"
+ARG API_BASE_URL="http://galactic-sovereign-service:80/v1/galactic-sovereign"
 ARG USER_API_BASE_URL="http://user-service:80/v1/users"
 WORKDIR /build
-COPY . ./
+COPY frontend/galactic-sovereign-frontend ./
 RUN echo "PUBLIC_API_BASE_URL='${API_BASE_URL}'" > .env
 RUN echo "PUBLIC_USER_API_BASE_URL='${USER_API_BASE_URL}'" >> .env
 RUN npm install
@@ -13,15 +13,11 @@ ARG GIT_COMMIT_HASH="undefined"
 ARG SERVER_ORIGIN="http://localhost:3001"
 ARG NODE_PORT=3001
 ENV GIT_COMMIT_HASH=$GIT_COMMIT_HASH
-# https://stackoverflow.com/questions/13333221/how-to-change-value-of-process-env-port-in-node-js
 ENV PORT=$NODE_PORT
-# https://stackoverflow.com/questions/73790956/cross-site-post-form-submissions-are-forbidden
 ENV ORIGIN=$SERVER_ORIGIN
 WORKDIR /app
-COPY --from=builder build/svelte-build bin/
-# https://www.reddit.com/r/sveltejs/comments/108ayfb/sveltekit_adapternode_deploy/
+COPY --from=builder build/build bin/
 COPY --from=builder build/package.json bin/
 COPY --from=builder build/.env bin/
 WORKDIR /app/bin
-# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
 CMD ["node", "."]
