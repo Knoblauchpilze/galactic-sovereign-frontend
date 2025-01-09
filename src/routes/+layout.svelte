@@ -15,6 +15,7 @@
 	let { children }: Props = $props();
 </script>
 
+<!-- https://stackoverflow.com/questions/74243719/how-to-change-page-title-dynamically-in-sveltekit -->
 <svelte:head>
 	<title>{$pageTitle}</title>
 </svelte:head>

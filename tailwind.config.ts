@@ -27,7 +27,8 @@ export default {
 				overlay: '#0005'
 			},
 			backgroundImage: {
-				homepage: "url('$lib/assets/background.webp')"
+				homepage: "url('$lib/assets/background.webp')",
+				overview: "url('$lib/assets/overview.webp')"
 			}
 		}
 	},

@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { FlexContainer, StyledLink, StyledTitle } from '@totocorpsoftwareinc/frontend-toolkit';
+	import { StyledLink, StyledTitle, FlexContainer } from '@totocorpsoftwareinc/frontend-toolkit';
+
+	import heroImage, { HOMEPAGE_HERO_IMAGE } from '$lib/stores/ui/heroImage';
+	import heroContainer, { HOMEPAGE_HERO_CONTAINER_PROPS } from '$lib/stores/ui/heroContainer';
 
 	let errorMessage: string = 'Unexpected error happened';
 	if (page.error !== null) {
 		errorMessage = page.error.message;
 	}
+
+	heroImage.set(HOMEPAGE_HERO_IMAGE);
+	heroContainer.set(HOMEPAGE_HERO_CONTAINER_PROPS);
 </script>
 
 <FlexContainer extensible={false} styling={'h-1/2'}>
