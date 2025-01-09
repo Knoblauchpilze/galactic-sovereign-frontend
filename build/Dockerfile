@@ -2,7 +2,7 @@ FROM node:22 AS builder
 ARG API_BASE_URL="http://galactic-sovereign-service:80/v1/galactic-sovereign"
 ARG USER_API_BASE_URL="http://user-service:80/v1/users"
 WORKDIR /build
-COPY frontend/galactic-sovereign-frontend ./
+COPY . ./
 RUN echo "PUBLIC_API_BASE_URL='${API_BASE_URL}'" > .env
 RUN echo "PUBLIC_USER_API_BASE_URL='${USER_API_BASE_URL}'" >> .env
 RUN npm install
@@ -16,7 +16,7 @@ ENV GIT_COMMIT_HASH=$GIT_COMMIT_HASH
 ENV PORT=$NODE_PORT
 ENV ORIGIN=$SERVER_ORIGIN
 WORKDIR /app
-COPY --from=builder build/build bin/
+COPY --from=builder build/svelte-build bin/
 COPY --from=builder build/package.json bin/
 COPY --from=builder build/.env bin/
 WORKDIR /app/bin
