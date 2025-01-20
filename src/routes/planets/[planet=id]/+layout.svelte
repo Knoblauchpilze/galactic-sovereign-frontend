@@ -44,7 +44,7 @@
 		<p>
 			Found an issue? Report it <StyledLink
 				text="here"
-				link="https://github.com/KnoblauchPilze/galactic-sovereign/issues"
+				link="https://github.com/Knoblauchpilze/galactic-sovereign/issues"
 			/>
 		</p>
 	</Footer>
