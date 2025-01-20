@@ -51,7 +51,7 @@ This project initially started as a companion project to the [user-service](http
 
 As the project developed, we extended the code contained in the repository to include the creation of a game based on what was done in [sogclient](https://github.com/Knoblauchpilze/sogclient), integrating it in what is essentially a monorepo.
 
-After some time, it became quite cumbersome to maintain this repository. In order to improve the sitiation we extracted this service, along with some other ones to their dedicated repository.
+After some time, it became quite cumbersome to maintain this repository. In order to improve the situation we extracted this service, along with some other ones to their dedicated repository.
 
 The companion backend service is available at [galactic-sovereign](https://github.com/Knoblauchpilze/galactic-sovereign).
 
