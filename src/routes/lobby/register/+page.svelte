@@ -26,7 +26,7 @@
 </script>
 
 <FlexContainer>
-	<div class="fixed right-4 top-4">
+	<div class="fixed top-4 right-4">
 		<p class="text-secondary">
 			Back to the <StyledLink text="lobby" link="/lobby" />
 		</p>
@@ -41,7 +41,7 @@
 		{#if data.universes.length > 0}
 			<form method="POST" action="?/register" class="flex flex-1 flex-col justify-evenly">
 				<FormField label="universe:" labelId="universe" labelStyling={'text-secondary'}>
-					<select id="universe" name="universe">
+					<select id="universe" name="universe" class="bg-white">
 						{#each data.universes as universe}
 							<option value={universe.id}>{universe.name}</option>
 						{/each}
@@ -56,6 +56,7 @@
 						required
 						value={form?.player ?? ''}
 						oninput={resetFormError}
+						class="bg-white"
 					/></FormField
 				>
 				<StyledButton text="Start" />
