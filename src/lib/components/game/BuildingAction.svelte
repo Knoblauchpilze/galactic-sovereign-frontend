@@ -55,7 +55,7 @@
 	}
 </script>
 
-<div class="m-2 bg-overlay p-4">
+<div class="bg-overlay m-2 p-4">
 	<StyledText text={title} styling="font-bold" />
 	{#if actionImage !== undefined}
 		<enhanced:img src={actionImage.data} alt="Building visual" width="150" height="150" />

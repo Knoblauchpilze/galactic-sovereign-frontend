@@ -32,7 +32,7 @@
 
 <FlexContainer>
 	<!-- https://stackoverflow.com/questions/67852559/pass-svelte-component-as-props -->
-	<Header>
+	<Header height={'h-1/30'}>
 		<StyledText text={universeName} textColor="text-white" />
 		<StyledText text={playerName} textColor="text-white" />
 		<StyledText text={planetName} textColor="text-white" />

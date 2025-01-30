@@ -15,11 +15,11 @@
 	<table class="mx-2">
 		<tbody>
 			<tr>
-				<td class="capitalize text-white">Universe:</td>
+				<td class="text-white capitalize">Universe:</td>
 				<td class="text-secondary">{player.universeName}</td>
 			</tr>
 			<tr>
-				<td class="capitalize text-white">Player:</td>
+				<td class="text-white capitalize">Player:</td>
 				<td class="text-secondary">{player.name}</td>
 			</tr>
 		</tbody>

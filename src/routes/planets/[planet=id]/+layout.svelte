@@ -37,7 +37,7 @@
 
 	{@render children?.()}
 
-	<Footer>
+	<Footer height={'h-1/30'}>
 		<p>
 			Meet the <StyledLink text="author" link="https://github.com/Knoblauchpilze" /> on github!
 		</p>

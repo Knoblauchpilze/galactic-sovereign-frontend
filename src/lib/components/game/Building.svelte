@@ -85,7 +85,7 @@
 	);
 </script>
 
-<div class="m-2 bg-overlay p-4">
+<div class="bg-overlay m-2 p-4">
 	<StyledText text="{title} (level {building.level})" styling="font-bold" />
 	{#if buildingImage !== undefined}
 		<enhanced:img src={buildingImage.data} alt="Building visual" width="150" height="150" />
@@ -95,7 +95,7 @@
 		<tbody>
 			{#each costs as cost}
 				<tr>
-					<td class="capitalize text-white">{cost.resource}:</td>
+					<td class="text-white capitalize">{cost.resource}:</td>
 					<td class={cost.color}>{cost.cost}</td>
 				</tr>
 			{/each}
@@ -107,7 +107,7 @@
 			<tbody>
 				{#each gains as gain}
 					<tr>
-						<td class="capitalize text-white">{gain.resource}:</td>
+						<td class="text-white capitalize">{gain.resource}:</td>
 						<td class="text-enabled">{gain.nextProduction}(+{gain.gain})</td>
 					</tr>
 				{/each}
