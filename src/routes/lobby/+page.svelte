@@ -9,7 +9,7 @@
 </script>
 
 <FlexContainer>
-	<div class="fixed right-4 top-4">
+	<div class="fixed top-4 right-4">
 		<form method="POST" action="?/logout">
 			<button class="text-white hover:underline">Logout</button>
 		</form>
