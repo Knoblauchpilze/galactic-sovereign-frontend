@@ -3,5 +3,5 @@ export function computeProductionForLevel(
 	progress: number,
 	level: number
 ): number {
-	return level === 0 ? 0 : Math.floor(production * Math.pow(progress, level - 1));
+	return level === 0 ? 0 : Math.floor(production * (level - 1) * Math.pow(progress, level - 1));
 }
