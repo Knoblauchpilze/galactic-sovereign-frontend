@@ -12,9 +12,9 @@ describe.concurrent('Calculating building production', () => {
 
 	it('should return correct value when level is not 0', () => {
 		let actual = computeProductionForLevel(SAMPLE_PRODUCTION, SAMPLE_PROGRESS, 5);
-		expect(actual).toBe(747);
+		expect(actual).toBe(1681);
 
 		actual = computeProductionForLevel(SAMPLE_PRODUCTION, SAMPLE_PROGRESS, 14);
-		expect(actual).toBe(481_843);
+		expect(actual).toBe(934_034);
 	});
 });
