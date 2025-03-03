@@ -8,9 +8,9 @@
 
 <FlexContainer
 	vertical={false}
-	bgColor={'bg-overlay'}
-	justify={'between'}
-	styling={'px-8 py-2 my-2 rounded-[8px]'}
+	bgColor="bg-overlay"
+	justify="between"
+	styling="px-8 py-2 my-2 rounded-[8px]"
 >
 	<table class="mx-2">
 		<tbody>

@@ -34,10 +34,10 @@
 	planetName={data.planetName}
 	resources={data.resources}
 >
-	<FlexContainer align={'center'}>
+	<FlexContainer align="center">
 		<StyledTitle text="Overview of {data.planetName}" />
 
-		<FlexContainer justify={'center'} bgColor={'bg-overlay'}>
+		<FlexContainer justify="center" bgColor="bg-overlay">
 			<table>
 				<tbody>
 					<tr>
@@ -53,9 +53,9 @@
 		</FlexContainer>
 	</FlexContainer>
 
-	<FlexContainer align={'stretch'}>
+	<FlexContainer align="stretch">
 		<StyledTitle text="Actions running on {data.planetName}" />
-		<FlexContainer vertical={false} justify={'start'} align={'start'} styling={'flex-wrap'}>
+		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
 			{#each data.buildingActions as action}
 				<BuildingAction {action} onCompleted={onActionCompleted} />
 			{/each}

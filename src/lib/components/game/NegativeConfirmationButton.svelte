@@ -11,4 +11,4 @@
 	let bgColorHover = $derived(enabled ? 'hover:bg-disabled-hover' : 'hover:bg-disabled');
 </script>
 
-<StyledActionButton {text} {enabled} bgColor={'bg-disabled'} {bgColorHover} />
+<StyledActionButton {text} {enabled} bgColor="bg-disabled" {bgColorHover} />
