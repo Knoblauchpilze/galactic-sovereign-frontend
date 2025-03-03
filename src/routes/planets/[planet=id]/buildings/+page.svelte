@@ -34,7 +34,7 @@
 		<StyledTitle text="Buildings on {data.planetName}" />
 		<!-- https://tailwindcss.com/docs/align-items -->
 		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
-			{#each data.buildings as building}
+			{#each data.buildings as building (building.id)}
 				<Building
 					{building}
 					availableResources={data.resources}
@@ -47,7 +47,7 @@
 	<FlexContainer align="stretch">
 		<StyledTitle text="Actions running on {data.planetName}" />
 		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
-			{#each data.buildingActions as buildingAction}
+			{#each data.buildingActions as buildingAction (buildingAction.id)}
 				<BuildingAction action={buildingAction} onCompleted={onActionCompleted} />
 			{/each}
 		</FlexContainer>

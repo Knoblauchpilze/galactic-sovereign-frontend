@@ -42,7 +42,7 @@
 			<form method="POST" action="?/register" class="flex flex-1 flex-col justify-evenly">
 				<FormField label="universe:" labelId="universe" labelStyling="text-secondary">
 					<select id="universe" name="universe" class="bg-white">
-						{#each data.universes as universe}
+						{#each data.universes as universe (universe.id)}
 							<option value={universe.id}>{universe.name}</option>
 						{/each}
 					</select>

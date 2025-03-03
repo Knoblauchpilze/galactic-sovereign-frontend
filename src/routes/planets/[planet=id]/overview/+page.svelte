@@ -56,7 +56,7 @@
 	<FlexContainer align="stretch">
 		<StyledTitle text="Actions running on {data.planetName}" />
 		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
-			{#each data.buildingActions as action}
+			{#each data.buildingActions as action (action.id)}
 				<BuildingAction {action} onCompleted={onActionCompleted} />
 			{/each}
 		</FlexContainer>

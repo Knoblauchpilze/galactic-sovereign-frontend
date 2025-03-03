@@ -32,7 +32,7 @@
 	<FlexContainer extensible={false} styling="h-3/5">
 		{#if data.players.length > 0}
 			<FlexContainer justify="center" align="stretch">
-				{#each data.players as player}
+				{#each data.players as player (player.id)}
 					<SessionCard {player} />
 				{/each}
 			</FlexContainer>
