@@ -32,7 +32,7 @@
 
 <FlexContainer>
 	<!-- https://stackoverflow.com/questions/67852559/pass-svelte-component-as-props -->
-	<Header height={'h-1/30'}>
+	<Header height="h-1/30">
 		<StyledText text={universeName} textColor="text-white" />
 		<StyledText text={playerName} textColor="text-white" />
 		<StyledText text={planetName} textColor="text-white" />
@@ -44,10 +44,10 @@
 		</form>
 	</Header>
 
-	<FlexContainer align={'stretch'} styling={'w-full'}>
-		<FlexContainer vertical={false} extensible={false} bgColor={'bg-black'} styling={'w-full'}>
+	<FlexContainer align="stretch" styling="w-full">
+		<FlexContainer vertical={false} extensible={false} bgColor="bg-black" styling="w-full">
 			{#each resources as resource}
-				<FlexContainer vertical={false} extensible={false} styling={'space-between'}>
+				<FlexContainer vertical={false} extensible={false} styling="space-between">
 					<StyledText text="{resource.name}:" textColor="text-white" />
 					<StyledText
 						text={floorToInteger(resource.amount).toString()}

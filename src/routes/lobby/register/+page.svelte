@@ -40,14 +40,14 @@
 	<FlexContainer extensible={false} styling="h-3/5">
 		{#if data.universes.length > 0}
 			<form method="POST" action="?/register" class="flex flex-1 flex-col justify-evenly">
-				<FormField label="universe:" labelId="universe" labelStyling={'text-secondary'}>
+				<FormField label="universe:" labelId="universe" labelStyling="text-secondary">
 					<select id="universe" name="universe" class="bg-white">
 						{#each data.universes as universe}
 							<option value={universe.id}>{universe.name}</option>
 						{/each}
 					</select>
 				</FormField>
-				<FormField label="player:" labelId="player" labelStyling={'text-secondary'}>
+				<FormField label="player:" labelId="player" labelStyling="text-secondary">
 					<input
 						id="player"
 						type="text"

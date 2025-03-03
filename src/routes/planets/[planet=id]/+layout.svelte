@@ -14,11 +14,11 @@
 <FlexContainer
 	vertical={false}
 	extensible={false}
-	justify={'center'}
-	align={'stretch'}
-	styling={'w-[90%] h-[90%]'}
+	justify="center"
+	align="stretch"
+	styling="w-[90%] h-[90%]"
 >
-	<FlexContainer extensible={false} justify={'start'}>
+	<FlexContainer extensible={false} justify="start">
 		<FlexContainer extensible={false}>
 			<StyledLink
 				text="Overview"
@@ -37,7 +37,7 @@
 
 	{@render children?.()}
 
-	<Footer height={'h-1/30'}>
+	<Footer height="h-1/30">
 		<p>
 			Meet the <StyledLink text="author" link="https://github.com/Knoblauchpilze" /> on github!
 		</p>

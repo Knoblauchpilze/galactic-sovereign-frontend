@@ -30,10 +30,10 @@
 	planetName={data.planetName}
 	resources={data.resources}
 >
-	<FlexContainer align={'stretch'}>
+	<FlexContainer align="stretch">
 		<StyledTitle text="Buildings on {data.planetName}" />
 		<!-- https://tailwindcss.com/docs/align-items -->
-		<FlexContainer vertical={false} justify={'start'} align={'start'} styling={'flex-wrap'}>
+		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
 			{#each data.buildings as building}
 				<Building
 					{building}
@@ -44,9 +44,9 @@
 		</FlexContainer>
 	</FlexContainer>
 
-	<FlexContainer align={'stretch'}>
+	<FlexContainer align="stretch">
 		<StyledTitle text="Actions running on {data.planetName}" />
-		<FlexContainer vertical={false} justify={'start'} align={'start'} styling={'flex-wrap'}>
+		<FlexContainer vertical={false} justify="start" align="start" styling="flex-wrap">
 			{#each data.buildingActions as buildingAction}
 				<BuildingAction action={buildingAction} onCompleted={onActionCompleted} />
 			{/each}
