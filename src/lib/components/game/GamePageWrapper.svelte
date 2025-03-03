@@ -46,7 +46,7 @@
 
 	<FlexContainer align="stretch" styling="w-full">
 		<FlexContainer vertical={false} extensible={false} bgColor="bg-black" styling="w-full">
-			{#each resources as resource}
+			{#each resources as resource (resource.name)}
 				<FlexContainer vertical={false} extensible={false} styling="space-between">
 					<StyledText text="{resource.name}:" textColor="text-white" />
 					<StyledText

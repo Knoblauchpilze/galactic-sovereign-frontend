@@ -93,7 +93,7 @@
 	<StyledText text="Required for level {building.level + 1}:" textColor="text-white" />
 	<table>
 		<tbody>
-			{#each costs as cost}
+			{#each costs as cost (cost.resource)}
 				<tr>
 					<td class="text-white capitalize">{cost.resource}:</td>
 					<td class={cost.color}>{cost.cost}</td>
@@ -105,7 +105,7 @@
 		<StyledText text="Production:" textColor="text-white" />
 		<table>
 			<tbody>
-				{#each gains as gain}
+				{#each gains as gain (gain.resource)}
 					<tr>
 						<td class="text-white capitalize">{gain.resource}:</td>
 						<td class="text-enabled">{gain.nextProduction}(+{gain.gain})</td>
