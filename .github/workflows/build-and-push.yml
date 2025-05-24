@@ -84,7 +84,7 @@ jobs:
       - name: Update service tag
         run: |
           echo "${{ needs.extract-service-tag.outputs.version }}" > ./build/galactic-sovereign-frontend/version.txt
-      - name: 'Commit changes'
+      - name: 'Commit changess'
         run: |
           git pull
           git config --global user.name 'totocorpbot'
