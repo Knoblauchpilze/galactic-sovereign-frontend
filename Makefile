@@ -27,3 +27,6 @@ docker:
 		--tag totocorpsoftwareinc/galactic-sovereign-frontend:${GIT_COMMIT_HASH} \
 		-f build/Dockerfile \
 		.
+
+publish-release:
+	./scripts/create-release.sh
