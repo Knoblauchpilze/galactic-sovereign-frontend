@@ -1,2 +1,6 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<h1>Welcome to Galactic Sovereign</h1>
+<p>
+	Visit the <a href="https://github.com/Knoblauchpilze/galactic-sovereign-frontend"
+		>GitHub project</a
+	> to read the documentation
+</p>
