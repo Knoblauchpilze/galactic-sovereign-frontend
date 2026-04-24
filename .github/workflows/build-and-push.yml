@@ -40,7 +40,7 @@ jobs:
       - name: Install Playwright Browsers
         # https://playwright.dev/docs/ci-intro#setting-up-github-actions
         run: |
-          npx playwright install --with-deps
+          npx playwright install --with-deps chromium
       - name: Check code style with linter
         run: |
           npm run lint
