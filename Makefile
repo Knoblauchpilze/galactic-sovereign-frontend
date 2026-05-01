@@ -4,7 +4,7 @@ NODE_PORT ?= 3001
 SERVER_ORIGIN ?= "http://localhost:3001"
 
 setup:
-	cp .env-example.local .env.local
+	cp .env.example .env.local
 	npx playwright install --with-deps chromium
 
 install:
