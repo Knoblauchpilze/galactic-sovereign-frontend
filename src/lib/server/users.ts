@@ -1,6 +1,6 @@
 import { USER_SERVICE_URL } from '$env/static/private';
-import { Users } from '$lib/api/user-service/Users';
-import type { CommunicationUserDtoRequest } from '$lib/api/user-service/data-contracts';
+import { Api } from '$lib/api/user-service/client';
+import type { CommunicationUserDtoRequest } from '$lib/api/user-service/client';
 
 export type LoginSuccess = {
 	success: true;
@@ -18,10 +18,10 @@ export type LoginResult = LoginSuccess | LoginFailure;
 
 export async function login(email: string, password: string): Promise<LoginResult> {
 	try {
-		const client = new Users({ baseUrl: USER_SERVICE_URL });
+		const client = new Api({ baseUrl: USER_SERVICE_URL });
 		const data: CommunicationUserDtoRequest = { email, password };
 
-		const response = await client.sessionsCreate(data);
+		const response = await client.users.sessionsCreate(data);
 
 		if (response && response.data && response.data.details) {
 			return {
