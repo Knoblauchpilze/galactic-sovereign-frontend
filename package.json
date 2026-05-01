@@ -16,7 +16,7 @@
 		"format": "prettier --write .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
-		"coverage": "TZ=UTC vitest run --coverage"
+		"coverage": "TZ=UTC vitest run --coverage --project server"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.4",

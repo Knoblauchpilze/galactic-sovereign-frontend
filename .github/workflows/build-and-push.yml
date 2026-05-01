@@ -50,6 +50,9 @@ jobs:
       - name: Run tests with coverage
         run: |
           npm run coverage
+      - name: Run browser tests
+        run: |
+          npm run test:unit -- --run --project client
       - name: Upload coverage to Codecov
         if: ${{ github.actor != 'dependabot[bot]' }}
         uses: codecov/codecov-action@v6
