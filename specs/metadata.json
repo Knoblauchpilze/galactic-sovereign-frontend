@@ -1,7 +1,0 @@
-{
-  "user-service": {
-    "source": "https://github.com/Knoblauchpilze/user-service",
-    "file": "api/swagger.yaml",
-    "commitSha": "54b99dc33f6a527dee4c23d4fc91c03496c6f53e"
-  }
-}
