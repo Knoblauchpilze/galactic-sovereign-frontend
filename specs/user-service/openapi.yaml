@@ -14,6 +14,10 @@ components:
           example: "2026-04-28T20:56:59Z"
           format: date-time
           type: string
+      required:
+      - key
+      - user
+      - validUntil
       type: object
     communication.UserDtoRequest:
       properties:
@@ -25,6 +29,9 @@ components:
           example: SecurePassword123
           form: password
           type: string
+      required:
+      - email
+      - password
       type: object
     communication.UserDtoResponse:
       properties:
@@ -42,6 +49,11 @@ components:
         password:
           example: SecurePassword123
           type: string
+      required:
+      - createdAt
+      - email
+      - id
+      - password
       type: object
     rest.ResponseEnvelope-array_string:
       properties:
@@ -56,6 +68,10 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
       type: object
     rest.ResponseEnvelope-communication_ApiKeyDtoResponse:
       properties:
@@ -67,6 +83,10 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
       type: object
     rest.ResponseEnvelope-communication_UserDtoResponse:
       properties:
@@ -78,6 +98,10 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
       type: object
     rest.ResponseEnvelope-string:
       properties:
@@ -89,6 +113,10 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
       type: object
     rest.Status:
       enum:
@@ -157,11 +185,9 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-              - type: object
-              - $ref: '#/components/schemas/communication.UserDtoRequest'
-                description: User payload
-                summary: user
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User payload
+              summary: user
         description: User payload
         required: true
       responses:
@@ -273,11 +299,9 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-              - type: object
-              - $ref: '#/components/schemas/communication.UserDtoRequest'
-                description: User payload
-                summary: user
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User payload
+              summary: user
         description: User payload
         required: true
       responses:
@@ -356,11 +380,9 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-              - type: object
-              - $ref: '#/components/schemas/communication.UserDtoRequest'
-                description: User credentials
-                summary: user
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User credentials
+              summary: user
         description: User credentials
         required: true
       responses:
