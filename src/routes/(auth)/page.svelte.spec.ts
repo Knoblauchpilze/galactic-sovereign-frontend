@@ -1,16 +1,17 @@
 import { page } from 'vitest/browser';
 import { describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
+
 import LoginPage from './+page.svelte';
 
 describe('login form contract', () => {
-	it('has a required username input with expected attributes', async () => {
+	it('has a required email input with expected attributes', async () => {
 		render(LoginPage);
 
-		const usernameInput = page.getByLabelText('Username');
-		await expect.element(usernameInput).toBeInTheDocument();
-		await expect.element(usernameInput).toHaveAttribute('name', 'username');
-		await expect.element(usernameInput).toHaveAttribute('required', '');
+		const emailInput = page.getByLabelText('Email');
+		await expect.element(emailInput).toBeInTheDocument();
+		await expect.element(emailInput).toHaveAttribute('name', 'email');
+		await expect.element(emailInput).toHaveAttribute('required', '');
 	});
 
 	it('has a required password input with password type and expected name', async () => {
