@@ -1,4 +1,3 @@
-import type { Span } from '@opentelemetry/api';
 import type { ActionFailure, RequestEvent } from '@sveltejs/kit';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { actions } from './+page.server';
@@ -15,20 +14,6 @@ const mockLogin = vi.mocked(login);
 type FailureReason = 'invalid_credentials' | 'user_not_found' | 'invalid_input' | 'server_error';
 type FailureData = { reason: FailureReason };
 
-const createSpanStub = (): Span => {
-	return {
-		spanContext: () => ({ traceId: 'trace', spanId: 'span', traceFlags: 1 }),
-		setAttribute: () => createSpanStub(),
-		setAttributes: () => createSpanStub(),
-		addEvent: () => createSpanStub(),
-		setStatus: () => createSpanStub(),
-		updateName: () => createSpanStub(),
-		end: () => undefined,
-		isRecording: () => false,
-		recordException: () => undefined
-	};
-};
-
 const createRequestEvent = (
 	email: string,
 	password: string
@@ -41,6 +26,13 @@ const createRequestEvent = (
 		method: 'POST',
 		body: formData
 	});
+
+	type EventTracing = RequestEvent<Record<string, never>, '/(auth)'>['tracing'];
+	const tracing: EventTracing = {
+		enabled: false,
+		root: {} as unknown as EventTracing['root'],
+		current: {} as unknown as EventTracing['current']
+	};
 
 	const event = {
 		cookies: {
@@ -61,11 +53,7 @@ const createRequestEvent = (
 		url: new URL('http://localhost/(auth)'),
 		isDataRequest: false,
 		isSubRequest: false,
-		tracing: {
-			enabled: false,
-			root: createSpanStub(),
-			current: createSpanStub()
-		},
+		tracing,
 		isRemoteRequest: false
 	} satisfies RequestEvent<Record<string, never>, '/(auth)'>;
 
