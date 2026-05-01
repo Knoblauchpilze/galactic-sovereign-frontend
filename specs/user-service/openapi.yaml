@@ -1,0 +1,459 @@
+components:
+  schemas:
+    communication.ApiKeyDtoResponse:
+      properties:
+        key:
+          example: f47ac10b-58cc-4372-a567-0e02b2c3d479
+          format: uuid
+          type: string
+        user:
+          example: 550e8400-e29b-41d4-a716-446655440000
+          format: uuid
+          type: string
+        validUntil:
+          example: "2026-04-28T20:56:59Z"
+          format: date-time
+          type: string
+      required:
+      - key
+      - user
+      - validUntil
+      type: object
+    communication.UserDtoRequest:
+      properties:
+        email:
+          example: user@example.com
+          form: email
+          type: string
+        password:
+          example: SecurePassword123
+          form: password
+          type: string
+      required:
+      - email
+      - password
+      type: object
+    communication.UserDtoResponse:
+      properties:
+        createdAt:
+          example: "2026-04-27T20:56:59Z"
+          format: date-time
+          type: string
+        email:
+          example: user@example.com
+          type: string
+        id:
+          example: 550e8400-e29b-41d4-a716-446655440000
+          format: uuid
+          type: string
+        password:
+          example: SecurePassword123
+          type: string
+      required:
+      - createdAt
+      - email
+      - id
+      - password
+      type: object
+    rest.ResponseEnvelope-array_string:
+      properties:
+        details:
+          items:
+            type: string
+          type: array
+          uniqueItems: false
+        requestId:
+          example: 669cd40f-ea15-40a8-ab03-81e704a3ecf9
+          format: uuid
+          type: string
+        status:
+          $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
+      type: object
+    rest.ResponseEnvelope-communication_ApiKeyDtoResponse:
+      properties:
+        details:
+          $ref: '#/components/schemas/communication.ApiKeyDtoResponse'
+        requestId:
+          example: 669cd40f-ea15-40a8-ab03-81e704a3ecf9
+          format: uuid
+          type: string
+        status:
+          $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
+      type: object
+    rest.ResponseEnvelope-communication_UserDtoResponse:
+      properties:
+        details:
+          $ref: '#/components/schemas/communication.UserDtoResponse'
+        requestId:
+          example: 669cd40f-ea15-40a8-ab03-81e704a3ecf9
+          format: uuid
+          type: string
+        status:
+          $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
+      type: object
+    rest.ResponseEnvelope-string:
+      properties:
+        details:
+          type: string
+        requestId:
+          example: 669cd40f-ea15-40a8-ab03-81e704a3ecf9
+          format: uuid
+          type: string
+        status:
+          $ref: '#/components/schemas/rest.Status'
+      required:
+      - details
+      - requestId
+      - status
+      type: object
+    rest.Status:
+      enum:
+      - SUCCESS
+      - ERROR
+      example: SUCCESS
+      type: string
+      x-enum-varnames:
+      - StatusSuccess
+      - StatusError
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-Api-Key
+      type: apiKey
+externalDocs:
+  description: ""
+  url: ""
+info:
+  description: HTTP API for managing users, sessions, and API key authentication.
+  title: User Service API
+  version: "1.0"
+openapi: 3.1.0
+paths:
+  /healthcheck:
+    get:
+      description: Verifies that the service can reach its database.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: OK
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Database unavailable
+      summary: Health check
+      tags:
+      - health
+  /users:
+    get:
+      description: Returns the identifiers of all users.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-array_string'
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: List users
+      tags:
+      - users
+    post:
+      description: Creates a user from the provided credentials.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User payload
+              summary: user
+        description: User payload
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-communication_UserDtoResponse'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid user syntax, email, or password
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Email already in use
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Create user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Deletes a user identified by its identifier.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid id syntax
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Delete user
+      tags:
+      - users
+    get:
+      description: Returns a user by its identifier.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-communication_UserDtoResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid id syntax
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: No such user
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Get user
+      tags:
+      - users
+    patch:
+      description: Updates a user identified by its identifier.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User payload
+              summary: user
+        description: User payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-communication_UserDtoResponse'
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid id or user syntax
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: No such user
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: User is not up to date
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Update user
+      tags:
+      - users
+  /users/auth:
+    get:
+      description: Validates the API key provided in the request header.
+      parameters:
+      - description: API key
+        in: header
+        name: X-Api-Key
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid API key
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: User is not authenticated
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Authenticate API key
+      tags:
+      - auth
+  /users/sessions:
+    post:
+      description: Authenticates a user with email and password and returns an API
+        key.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/communication.UserDtoRequest'
+              description: User credentials
+              summary: user
+        description: User credentials
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-communication_ApiKeyDtoResponse'
+          description: Created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid user syntax
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid credentials
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: No such user
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Create session
+      tags:
+      - sessions
+  /users/sessions/{id}:
+    delete:
+      description: Revokes the active session for the specified user.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Invalid id syntax
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: No such user
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rest.ResponseEnvelope-string'
+          description: Internal server error
+      summary: Delete session
+      tags:
+      - sessions
+servers:
+- description: Base path for the user-service API
+  url: /v1

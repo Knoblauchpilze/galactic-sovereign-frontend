@@ -10,6 +10,9 @@ setup:
 install:
 	npm install
 
+generate-specs:
+	npm run openapi:generate
+
 dev:
 	npm run dev -- --open
 

@@ -24,3 +24,6 @@ vite.config.ts.timestamp-*
 
 # Coverage
 coverage
+
+# Generated API client
+src/lib/api/

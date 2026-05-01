@@ -1,0 +1,37 @@
+name: Verify API specs
+
+on:
+  push:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'build/**'
+      - 'src/**'
+      - 'static/**'
+
+jobs:
+  verify-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Verify user-service API spec is up to date
+        run: |
+          set -euo pipefail
+
+          REMOTE_SPEC_URL="https://raw.githubusercontent.com/Knoblauchpilze/user-service/master/api/swagger.yaml"
+          LOCAL_SPEC_PATH="specs/user-service/openapi.yaml"
+          REMOTE_TMP_PATH="/tmp/user-service.openapi.yaml"
+
+          curl -fsSL "$REMOTE_SPEC_URL" -o "$REMOTE_TMP_PATH"
+
+          if ! diff -u "$LOCAL_SPEC_PATH" "$REMOTE_TMP_PATH" > /tmp/user-service.openapi.diff; then
+            echo "The vendored user-service API spec is outdated."
+            echo "Please update $LOCAL_SPEC_PATH and specs/user-service/metadata.json"
+            echo ""
+            echo "Diff preview:"
+            head -200 /tmp/user-service.openapi.diff
+            exit 1
+          fi
+
+          echo "user-service API spec is up to date."
