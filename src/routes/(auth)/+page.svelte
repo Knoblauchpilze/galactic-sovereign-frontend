@@ -1,5 +1,5 @@
 <script lang="ts">
-	let username = $state('');
+	let email = $state('');
 	let password = $state('');
 </script>
 
@@ -8,13 +8,13 @@
 		<h1 class="text-white text-center mb-4 text-3xl">Galactic Sovereign</h1>
 
 		<div class="flex flex-col gap-2">
-			<label for="username" class="text-white font-medium text-sm">Username</label>
+			<label for="email" class="text-white font-medium text-sm">Email</label>
 			<input
-				id="username"
-				name="username"
-				type="text"
-				placeholder="Enter your username"
-				bind:value={username}
+				id="email"
+				name="email"
+				type="email"
+				placeholder="Enter your email"
+				bind:value={email}
 				required
 				class="px-3 py-2 border border-[#444] rounded bg-[#2a2a27] text-white text-base transition-colors focus:outline-none focus:border-[#666] focus:bg-[#333330] placeholder-[#888]"
 			/>
