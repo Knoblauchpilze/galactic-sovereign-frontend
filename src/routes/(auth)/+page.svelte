@@ -1,11 +1,40 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+
 	let email = $state('');
 	let password = $state('');
+	let errorMessage = $state('');
+	let showError = $state(false);
+
+	const errorReasons: Record<string, string> = {
+		invalid_credentials: 'Invalid email or password',
+		user_not_found: 'Invalid email or password',
+		invalid_input: 'Please check your email and password',
+		server_error: 'Server error. Please try again later'
+	};
+
+	$effect(() => {
+		if ($page.form?.reason) {
+			errorMessage = errorReasons[$page.form.reason] || 'An error occurred';
+			showError = true;
+			// Auto-hide error after 5 seconds
+			const timer = setTimeout(() => {
+				showError = false;
+			}, 5000);
+			return () => clearTimeout(timer);
+		}
+	});
 </script>
 
 <div class="flex items-center justify-center min-h-screen bg-[#21211f]">
 	<form method="POST" class="flex flex-col gap-6 w-full max-w-100 p-8">
 		<h1 class="text-white text-center mb-4 text-3xl">Galactic Sovereign</h1>
+
+		{#if showError}
+			<div class="px-4 py-3 bg-red-900/30 border border-red-600 rounded text-red-200 text-sm">
+				{errorMessage}
+			</div>
+		{/if}
 
 		<div class="flex flex-col gap-2">
 			<label for="email" class="text-white font-medium text-sm">Email</label>

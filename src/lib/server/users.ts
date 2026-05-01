@@ -18,24 +18,12 @@ export type LoginResult = LoginSuccess | LoginFailure;
 
 export async function login(email: string, password: string): Promise<LoginResult> {
 	try {
-		console.log('[login] Starting login attempt for:', email);
-		console.log('[login] USER_SERVICE_URL:', USER_SERVICE_URL);
-
 		const client = new Users({ baseUrl: USER_SERVICE_URL });
 		const data: CommunicationUserDtoRequest = { email, password };
 
-		console.log('[login] Calling sessionsCreate with client baseUrl:', client.baseUrl);
-
-		// Call the generated client's sessionsCreate method
-		// This returns HttpResponse<RestResponseEnvelopeCommunicationApiKeyDtoResponse, ...>
-		// where response.data contains the envelope, and response.data.details contains the API key
 		const response = await client.sessionsCreate(data);
 
-		console.log('[login] Response received:', JSON.stringify(response, null, 2));
-
-		// Extract the API key details from the response envelope
 		if (response && response.data && response.data.details) {
-			console.log('[login] Login successful');
 			return {
 				success: true,
 				apiKey: response.data.details.key,
@@ -44,31 +32,31 @@ export async function login(email: string, password: string): Promise<LoginResul
 			};
 		}
 
-		// If response structure is unexpected
-		console.log('[login] Response structure unexpected:', response);
 		return { success: false, reason: 'server_error' };
 	} catch (error) {
-		// Handle network errors, timeouts, and API errors
-		// Map HTTP status codes and error responses to LoginFailure reasons
-		console.error('[login] Error caught:', error);
+		// The generated client throws HttpResponse objects for non-2xx responses
+		// These are not Error instances, so we need to check their structure
+		const httpResponse = error as { status?: number; error?: { details?: string } };
 
-		if (error instanceof Error) {
-			const message = error.message.toLowerCase();
-			console.error('[login] Error message:', message);
-
-			// Check for specific error patterns in the error message
-			if (message.includes('400') || message.includes('invalid_input')) {
+		// Map HTTP status codes to LoginFailure reasons
+		switch (httpResponse.status) {
+			case 400:
 				return { success: false, reason: 'invalid_input' };
-			}
-			if (message.includes('401') || message.includes('invalid_credentials')) {
+			case 401:
 				return { success: false, reason: 'invalid_credentials' };
-			}
-			if (message.includes('404') || message.includes('not_found')) {
+			case 404:
 				return { success: false, reason: 'user_not_found' };
-			}
 		}
 
-		// Default to server error for any other case (network error, timeout, 5xx, etc.)
+		// If it's an actual Error instance, check the message
+		if (error instanceof Error) {
+			const message = error.message.toLowerCase();
+			if (message.includes('400')) return { success: false, reason: 'invalid_input' };
+			if (message.includes('401')) return { success: false, reason: 'invalid_credentials' };
+			if (message.includes('404')) return { success: false, reason: 'user_not_found' };
+		}
+
+		// Default to server error for any other case
 		return { success: false, reason: 'server_error' };
 	}
 }
