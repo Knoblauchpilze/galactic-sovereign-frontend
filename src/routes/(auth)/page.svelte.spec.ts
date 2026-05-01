@@ -11,11 +11,14 @@ type MockPageState = {
 	form?: PageForm;
 };
 
-const mockPageStore: Writable<MockPageState> = writable({ form: undefined });
+let mockPageStore: Writable<MockPageState>;
 
-vi.mock('$app/stores', () => ({
-	page: mockPageStore
-}));
+vi.mock('$app/stores', () => {
+	mockPageStore = writable({ form: undefined });
+	return {
+		page: mockPageStore
+	};
+});
 
 import LoginPage from './+page.svelte';
 
