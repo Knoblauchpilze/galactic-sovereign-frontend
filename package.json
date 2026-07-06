@@ -44,6 +44,6 @@
 		"vite": "^8.1.0",
 		"swagger-typescript-api": "^13.12.3",
 		"vitest": "^4.1.9",
-		"vitest-browser-svelte": "^2.1.0"
+		"vitest-browser-svelte": "^2.2.0"
 	}
 }
