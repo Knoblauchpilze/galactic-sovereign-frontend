@@ -33,7 +33,7 @@ git clone git@github.com:Knoblauchpilze/galactic-sovereign-frontend.git
 After this you can install the dependencies and start the preview of the website:
 ```bash
 cd /path/to/the/repo
-make instal
+make install
 make dev
 ```
 

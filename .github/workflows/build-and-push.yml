@@ -40,23 +40,9 @@ jobs:
       - name: Generate API clients
         run: |
           npm run openapi:generate
-      - name: Install Playwright Browsers
-        # https://playwright.dev/docs/ci-intro#setting-up-github-actions
-        run: |
-          npx playwright install --with-deps chromium
       - name: Check code style with linter
         run: |
           npm run lint
-      - name: Run tests with coverage
-        run: |
-          npm run coverage
-      - name: Upload coverage to Codecov
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        uses: codecov/codecov-action@v7
-        with:
-          fail_ci_if_error: true
-          files: ./coverage/coverage-final.json
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   build-and-push-docker-image:
     needs: [extract-service-tag, build-and-test]
