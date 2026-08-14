@@ -20,8 +20,8 @@ jobs:
           set -euo pipefail
 
           REMOTE_SPEC_URL="https://raw.githubusercontent.com/Knoblauchpilze/user-service/master/api/swagger.yaml"
-          LOCAL_SPEC_PATH="specs/user-service/openapi.yaml"
-          REMOTE_TMP_PATH="/tmp/user-service.openapi.yaml"
+          LOCAL_SPEC_PATH="specs/user-service/swagger.yaml"
+          REMOTE_TMP_PATH="/tmp/user-service.swagger.yaml"
 
           curl -fsSL "$REMOTE_SPEC_URL" -o "$REMOTE_TMP_PATH"
 
@@ -35,3 +35,24 @@ jobs:
           fi
 
           echo "user-service API spec is up to date."
+
+      - name: Verify galactic-sovereign API spec is up to date
+        run: |
+          set -euo pipefail
+
+          REMOTE_SPEC_URL="https://raw.githubusercontent.com/Knoblauchpilze/galactic-sovereign/master/api/swagger.yaml"
+          LOCAL_SPEC_PATH="specs/galactic-sovereign/swagger.yaml"
+          REMOTE_TMP_PATH="/tmp/galactic-sovereign.swagger.yaml"
+
+          curl -fsSL "$REMOTE_SPEC_URL" -o "$REMOTE_TMP_PATH"
+
+          if ! diff -u "$LOCAL_SPEC_PATH" "$REMOTE_TMP_PATH" > /tmp/galactic-sovereign.openapi.diff; then
+            echo "The vendored galactic-sovereign API spec is outdated."
+            echo "Please update $LOCAL_SPEC_PATH and specs/galactic-sovereign/metadata.json"
+            echo ""
+            echo "Diff preview:"
+            head -200 /tmp/galactic-sovereign.openapi.diff
+            exit 1
+          fi
+
+          echo "galactic-sovereign API spec is up to date."

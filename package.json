@@ -4,8 +4,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"openapi:generate:user-service": "rm -rf src/lib/api/user-service && npx swagger-typescript-api generate -p specs/user-service/openapi.yaml -o src/lib/api/user-service -n client.ts",
-		"openapi:generate": "npm run openapi:generate:user-service",
+		"openapi:generate:user-service": "rm -rf src/lib/api/user-service && npx swagger-typescript-api generate -p specs/user-service/swagger.yaml -o src/lib/api/user-service -n client.ts",
+		"openapi:generate:galactic-sovereign": "rm -rf src/lib/api/galactic-sovereign && npx swagger-typescript-api generate -p specs/galactic-sovereign/swagger.yaml -o src/lib/api/galactic-sovereign -n client.ts",
+		"openapi:generate": "npm run openapi:generate:galactic-sovereign && npm run openapi:generate:user-service",
 		"dev": "npm run openapi:generate && vite dev",
 		"build": "npm run openapi:generate && vite build",
 		"preview": "vite preview",
