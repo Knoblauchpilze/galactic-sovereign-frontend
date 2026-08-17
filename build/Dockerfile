@@ -3,8 +3,8 @@ ARG API_BASE_URL="http://galactic-sovereign-service:80/v1/galactic-sovereign"
 ARG USER_API_BASE_URL="http://user-service:80/v1/users"
 WORKDIR /build
 COPY . ./
-RUN echo "PUBLIC_API_BASE_URL='${API_BASE_URL}'" > .env
 RUN echo "USER_SERVICE_URL='${USER_API_BASE_URL}'" >> .env
+RUN echo "GAME_SERVICE_URL='${API_BASE_URL}'" >> .env
 RUN npm install
 RUN npm run build
 

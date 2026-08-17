@@ -3,7 +3,9 @@
 	<p class="text-gray-400 text-base mb-10">Welcome back, Commander</p>
 
 	<div class="w-1/2 min-w-80 flex flex-col gap-4 mb-8">
-		<div class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded">
+		<div
+			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
+		>
 			<div class="flex flex-col gap-1">
 				<span class="text-gray-400 text-xs uppercase tracking-wider">Universe</span>
 				<span class="text-white font-medium">Andromeda Prime</span>
@@ -17,7 +19,9 @@
 			</button>
 		</div>
 
-		<div class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded">
+		<div
+			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
+		>
 			<div class="flex flex-col gap-1">
 				<span class="text-gray-400 text-xs uppercase tracking-wider">Universe</span>
 				<span class="text-white font-medium">Nebula Cradle</span>
@@ -31,7 +35,9 @@
 			</button>
 		</div>
 
-		<div class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded">
+		<div
+			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
+		>
 			<div class="flex flex-col gap-1">
 				<span class="text-gray-400 text-xs uppercase tracking-wider">Universe</span>
 				<span class="text-white font-medium">Void Expanse</span>

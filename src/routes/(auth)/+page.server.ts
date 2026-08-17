@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { login } from '$lib/server/users';
+import { getPlayersByApiUser } from '$lib/server/players';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
@@ -19,6 +20,9 @@ export const actions: Actions = {
 			};
 			return fail(statusByReason[result.reason], { reason: result.reason });
 		}
+
+		const players = await getPlayersByApiUser(result.userId);
+		console.log(players);
 
 		return { success: true };
 	}
