@@ -5,12 +5,14 @@ export type LobbyPlayer = {
 	player: string;
 };
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ params }) => {
+	const playerId = params.player;
+
 	const players: LobbyPlayer[] = [
 		{ universe: 'Andromeda Prime', player: 'StarFalcon' },
 		{ universe: 'Nebula Cradle', player: 'IronNova' },
 		{ universe: 'Void Expanse', player: 'DuskReaper' }
 	];
 
-	return { players };
+	return { playerId, players };
 };
