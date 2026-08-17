@@ -1,3 +1,4 @@
+import { getPlayersByApiUser } from '$lib/server/players';
 import type { PageServerLoad } from './$types';
 
 export type LobbyPlayer = {
@@ -8,11 +9,13 @@ export type LobbyPlayer = {
 export const load: PageServerLoad = async ({ params }) => {
 	const playerId = params.player;
 
-	const players: LobbyPlayer[] = [
-		{ universe: 'Andromeda Prime', player: 'StarFalcon' },
-		{ universe: 'Nebula Cradle', player: 'IronNova' },
-		{ universe: 'Void Expanse', player: 'DuskReaper' }
-	];
+	const apiUserPlayers = await getPlayersByApiUser(playerId);
+	console.log(apiUserPlayers);
+
+	const players: LobbyPlayer[] = apiUserPlayers.map((player) => ({
+		universe: player.universe,
+		player: player.name
+	}));
 
 	return { playerId, players };
 };
