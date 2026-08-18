@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 
 	let email = $state('');
 	let password = $state('');
@@ -14,8 +14,8 @@
 	};
 
 	$effect(() => {
-		if ($page.form?.reason) {
-			errorMessage = errorReasons[$page.form.reason] || 'An error occurred';
+		if (page.form?.reason) {
+			errorMessage = errorReasons[page.form.reason] || 'An error occurred';
 			showError = true;
 			// Auto-hide error after 5 seconds
 			const timer = setTimeout(() => {

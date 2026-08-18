@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { untrack } from 'svelte';
 	import type { LayoutData } from './$types';
 
@@ -21,7 +21,7 @@
 				<li>
 					<a
 						href={item.href}
-						class="block w-full text-left px-4 py-2 rounded text-sm font-medium cursor-pointer transition-colors {$page
+						class="block w-full text-left px-4 py-2 rounded text-sm font-medium cursor-pointer transition-colors {page
 							.url.pathname === item.href
 							? 'text-white bg-[#444]'
 							: 'text-gray-400 hover:bg-[#444] hover:text-white'}"
