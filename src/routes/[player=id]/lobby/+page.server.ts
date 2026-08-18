@@ -4,6 +4,7 @@ import type { PageServerLoad } from './$types';
 export type LobbyPlayer = {
 	universe: string;
 	player: string;
+	homeworld: string;
 };
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -13,7 +14,8 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	const players: LobbyPlayer[] = apiUserPlayers.map((player) => ({
 		universe: player.universe,
-		player: player.name
+		player: player.name,
+		homeworld: player.homeworld
 	}));
 
 	return { playerId, players };
