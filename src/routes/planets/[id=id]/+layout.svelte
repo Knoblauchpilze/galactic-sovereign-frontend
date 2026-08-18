@@ -8,10 +8,10 @@
 
 	let selectedPlanet = $state(untrack(() => data.planets[0].coordinates));
 
-	const navItems = [
-		{ label: 'Overview', href: resolve('/planets/[id=id]', { id: $page.params.id }) },
-		{ label: 'Buildings', href: resolve('/planets/[id=id]/buildings', { id: $page.params.id }) }
-	];
+	const navItems = $derived([
+		{ label: 'Overview', href: resolve('/planets/[id=id]', { id: data.id }) },
+		{ label: 'Buildings', href: resolve('/planets/[id=id]/buildings', { id: data.id }) }
+	]);
 </script>
 
 <div class="flex w-full min-h-screen bg-[#21211f]">

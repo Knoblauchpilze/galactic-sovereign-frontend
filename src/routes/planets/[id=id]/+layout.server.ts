@@ -10,7 +10,7 @@ export type Resource = {
 	amount: string;
 };
 
-export const load: LayoutServerLoad = async () => {
+export const load: LayoutServerLoad = async ({ params }) => {
 	const planets: Planet[] = [
 		{ name: 'Homeworld', coordinates: '1:42:8' },
 		{ name: 'Colony I', coordinates: '1:118:5' },
@@ -23,5 +23,5 @@ export const load: LayoutServerLoad = async () => {
 		{ name: 'Deuterium', amount: '3,040' }
 	];
 
-	return { planets, resources };
+	return { id: params.id, planets, resources };
 };
