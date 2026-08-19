@@ -16,7 +16,7 @@
 				</div>
 				<div class="flex flex-wrap gap-x-4 gap-y-1">
 					{#each building.costs as cost (cost.name)}
-						<span class="text-gray-400 text-xs">
+						<span class="text-xs {cost.affordable ? 'text-green-400' : 'text-red-400'}">
 							<span class="capitalize">{cost.name}</span>: {cost.cost}
 						</span>
 					{/each}

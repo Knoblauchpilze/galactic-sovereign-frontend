@@ -8,6 +8,7 @@ import { formatAmount } from '$lib/format';
 export type BuildingCost = {
 	name: string;
 	cost: string;
+	affordable: boolean;
 };
 
 export type Building = {
@@ -27,7 +28,9 @@ export function mapPlanetBuildings(
 		return {
 			name: definition?.name ?? 'Unknown',
 			level: planetBuilding.level,
-			costs: definition ? mapUpgradeCosts(definition, planetBuilding.level + 1, universe) : []
+			costs: definition
+				? mapUpgradeCosts(definition, planetBuilding.level + 1, planet, universe)
+				: []
 		};
 	});
 }
@@ -35,14 +38,18 @@ export function mapPlanetBuildings(
 function mapUpgradeCosts(
 	building: DtosBuildingDtoResponse,
 	desiredLevel: number,
+	planet: DtosPlanetDtoResponse,
 	universe: DtosUniverseDtoResponse
 ): BuildingCost[] {
 	return building.costs.map((baseCost) => {
 		const definition = universe.resources.find((r) => r.id === baseCost.resource);
+		const available = planet.resources.find((r) => r.resource === baseCost.resource)?.amount ?? 0;
+		const cost = Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1));
 
 		return {
 			name: definition?.name ?? 'Unknown',
-			cost: formatAmount(Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1)))
+			cost: formatAmount(cost),
+			affordable: available >= cost
 		};
 	});
 }
