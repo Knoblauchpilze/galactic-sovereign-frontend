@@ -8,9 +8,9 @@ export type LobbyPlayer = {
 };
 
 export const load: PageServerLoad = async ({ params }) => {
-	const playerId = params.player;
+	const apiUserId = params.api_user;
 
-	const apiUserPlayers = await getPlayersByApiUser(playerId);
+	const apiUserPlayers = await getPlayersByApiUser(apiUserId);
 
 	const players: LobbyPlayer[] = apiUserPlayers.map((player) => ({
 		universe: player.universe,
@@ -18,5 +18,5 @@ export const load: PageServerLoad = async ({ params }) => {
 		homeworld: player.homeworld
 	}));
 
-	return { playerId, players };
+	return { apiUserId, players };
 };
