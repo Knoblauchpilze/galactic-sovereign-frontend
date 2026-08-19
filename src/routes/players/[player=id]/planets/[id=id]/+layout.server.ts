@@ -1,4 +1,6 @@
+import { error } from '@sveltejs/kit';
 import { getPlayer } from '$lib/server/players';
+import { getUniverse } from '$lib/server/universes';
 import type { LayoutServerLoad } from './$types';
 
 export type Planet = {
@@ -25,6 +27,11 @@ export const load: LayoutServerLoad = async ({ params }) => {
 	];
 
 	const player = await getPlayer(params.player);
+	if (!player) {
+		error(404, 'Player not found');
+	}
 
-	return { player: params.player, id: params.id, planets, resources, playerDetails: player };
+	await getUniverse(player.universe);
+
+	return { player: params.player, id: params.id, planets, resources };
 };
