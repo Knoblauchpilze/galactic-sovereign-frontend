@@ -1,11 +1,19 @@
 import type {
+	DtosBuildingDtoResponse,
 	DtosPlanetDtoResponse,
 	DtosUniverseDtoResponse
 } from '$lib/api/galactic-sovereign/client';
+import { formatAmount } from '$lib/format';
+
+export type BuildingCost = {
+	name: string;
+	cost: string;
+};
 
 export type Building = {
 	name: string;
 	level: number;
+	costs: BuildingCost[];
 };
 
 export function mapPlanetBuildings(
@@ -18,7 +26,23 @@ export function mapPlanetBuildings(
 
 		return {
 			name: definition?.name ?? 'Unknown',
-			level: planetBuilding.level
+			level: planetBuilding.level,
+			costs: definition ? mapUpgradeCosts(definition, planetBuilding.level + 1, universe) : []
+		};
+	});
+}
+
+function mapUpgradeCosts(
+	building: DtosBuildingDtoResponse,
+	desiredLevel: number,
+	universe: DtosUniverseDtoResponse
+): BuildingCost[] {
+	return building.costs.map((baseCost) => {
+		const definition = universe.resources.find((r) => r.id === baseCost.resource);
+
+		return {
+			name: definition?.name ?? 'Unknown',
+			cost: formatAmount(Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1)))
 		};
 	});
 }
