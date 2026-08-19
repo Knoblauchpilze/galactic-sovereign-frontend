@@ -34,5 +34,5 @@ export const load: LayoutServerLoad = async ({ params }) => {
 
 	const resources = mapPlanetResources(planet, universe);
 
-	return { player: params.player, id: params.id, planets, resources, planet };
+	return { player: params.player, id: params.id, planets, resources, planet, universe };
 };

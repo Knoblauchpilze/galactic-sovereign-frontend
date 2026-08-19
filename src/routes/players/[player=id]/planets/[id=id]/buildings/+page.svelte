@@ -10,8 +10,7 @@
 			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
 		>
 			<div class="flex flex-col gap-1">
-				<span class="text-white font-medium">{building.name}</span>
-				<span class="text-gray-400 text-xs">{building.description}</span>
+				<span class="text-white font-medium capitalize">{building.name}</span>
 				<span class="text-gray-400 text-xs uppercase tracking-wider mt-1"
 					>Level {building.level}</span
 				>
