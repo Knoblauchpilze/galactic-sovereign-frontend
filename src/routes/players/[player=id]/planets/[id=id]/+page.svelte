@@ -2,8 +2,6 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-
-	const formatNumber = (value: number) => new Intl.NumberFormat('de-DE').format(value);
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
@@ -16,12 +14,9 @@
 
 		<dl class="flex flex-col">
 			<div class="flex items-center justify-between px-5 py-3">
-				<dt class="text-sky-400 text-sm font-medium">Diameter</dt>
+				<dt class="text-sky-400 text-sm font-medium">Fields</dt>
 				<dd class="text-white text-sm">
-					{formatNumber(data.overview.diameter)}km
-					<span class="text-gray-400">
-						({data.overview.usedFields}/{data.overview.totalFields})
-					</span>
+					{data.overview.usedFields}/{data.overview.totalFields}
 				</dd>
 			</div>
 		</dl>

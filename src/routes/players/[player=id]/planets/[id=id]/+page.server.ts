@@ -1,20 +1,21 @@
+import { mapCoordinate } from '$lib/server/mappers/planet';
 import type { PageServerLoad } from './$types';
 
 export type PlanetOverview = {
 	name: string;
 	coordinates: string;
-	diameter: number;
 	usedFields: number;
 	totalFields: number;
 };
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ parent }) => {
+	const { planet } = await parent();
+
 	const overview: PlanetOverview = {
-		name: 'Homeworld',
-		coordinates: '1:42:8',
-		diameter: 12800,
-		usedFields: 200,
-		totalFields: 240
+		name: planet.name,
+		coordinates: mapCoordinate(planet.coordinate),
+		usedFields: planet.buildings.length,
+		totalFields: planet.fields
 	};
 
 	return { overview };

@@ -23,3 +23,7 @@ export function mapPlanetResources(
 		};
 	});
 }
+
+export function mapCoordinate(coordinate: DtosPlanetDtoResponse['coordinate']): string {
+	return `${coordinate.galaxy}:${coordinate.solar_system}:${coordinate.position}`;
+}
