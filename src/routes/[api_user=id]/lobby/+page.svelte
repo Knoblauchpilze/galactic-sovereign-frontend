@@ -10,7 +10,7 @@
 	<p class="text-gray-400 text-base mb-10">Welcome back, Commander</p>
 
 	<div class="w-1/2 min-w-80 flex flex-col gap-4 mb-8">
-		{#each data.players as { universe, player, homeworld } (universe)}
+		{#each data.players as { id, universe, player, homeworld } (universe)}
 			<div
 				class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
 			>
@@ -21,7 +21,7 @@
 					<span class="text-white font-medium">{player}</span>
 				</div>
 				<a
-					href={resolve('/planets/[id=id]', { id: homeworld })}
+					href={resolve('/players/[player=id]/planets/[id=id]', { player: id, id: homeworld })}
 					class="px-5 py-2 bg-[#444] text-white border-0 rounded text-sm font-medium cursor-pointer transition-colors hover:bg-[#555] active:bg-[#333]"
 				>
 					Play

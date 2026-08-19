@@ -23,5 +23,5 @@ export const load: LayoutServerLoad = async ({ params }) => {
 		{ name: 'Deuterium', amount: '3,040' }
 	];
 
-	return { id: params.id, planets, resources };
+	return { player: params.player, id: params.id, planets, resources };
 };
