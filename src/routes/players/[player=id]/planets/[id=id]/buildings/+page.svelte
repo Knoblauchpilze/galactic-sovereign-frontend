@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { formatAmount } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -16,8 +17,8 @@
 				</div>
 				<div class="flex flex-wrap gap-x-4 gap-y-1">
 					{#each building.costs as cost (cost.name)}
-						<span class="text-xs {cost.affordable ? 'text-green-400' : 'text-red-400'}">
-							<span class="capitalize">{cost.name}</span>: {cost.cost}
+						<span class="text-xs {cost.available >= cost.cost ? 'text-green-400' : 'text-red-400'}">
+							<span class="capitalize">{cost.name}</span>: {formatAmount(cost.cost)}
 						</span>
 					{/each}
 				</div>

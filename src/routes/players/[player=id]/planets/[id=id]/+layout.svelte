@@ -2,6 +2,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { untrack } from 'svelte';
+	import { formatAmount, formatProduction, formatStorage } from '$lib/format';
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: import('svelte').Snippet } = $props();
@@ -61,22 +62,25 @@
 				{#each data.resources as resource (resource.name)}
 					<div class="group relative flex flex-col items-end">
 						<span class="text-gray-400 text-xs uppercase tracking-wider">{resource.name}</span>
-						<span class="font-medium {resource.full ? 'text-red-500' : 'text-white'}"
-							>{resource.amount}</span
+						<span
+							class="font-medium {resource.amount >= resource.storage
+								? 'text-red-500'
+								: 'text-white'}">{formatAmount(resource.amount)}</span
 						>
 						<div
 							class="pointer-events-none absolute top-full right-0 z-10 mt-2 hidden group-hover:flex flex-col gap-1 whitespace-nowrap rounded border border-[#444] bg-[#333] px-3 py-2 text-sm text-white shadow-lg"
 						>
 							<span
 								><span class="text-gray-400">Production:</span>
-								<span class={resource.productionPositive ? 'text-green-500' : 'text-red-500'}
-									>{resource.production}</span
+								<span class={resource.production >= 0 ? 'text-green-500' : 'text-red-500'}
+									>{formatProduction(resource.production)}</span
 								></span
 							>
 							<span
 								><span class="text-gray-400">Storage:</span>
-								<span class={resource.full ? 'text-red-500' : 'text-green-500'}
-									>{resource.storage}</span
+								<span
+									class={resource.amount >= resource.storage ? 'text-red-500' : 'text-green-500'}
+									>{formatStorage(resource.storage)}</span
 								></span
 							>
 						</div>

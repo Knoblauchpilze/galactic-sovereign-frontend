@@ -3,12 +3,11 @@ import type {
 	DtosPlanetDtoResponse,
 	DtosUniverseDtoResponse
 } from '$lib/api/galactic-sovereign/client';
-import { formatAmount } from '$lib/format';
 
 export type BuildingCost = {
 	name: string;
-	cost: string;
-	affordable: boolean;
+	cost: number;
+	available: number;
 };
 
 export type Building = {
@@ -43,13 +42,11 @@ function mapUpgradeCosts(
 ): BuildingCost[] {
 	return building.costs.map((baseCost) => {
 		const definition = universe.resources.find((r) => r.id === baseCost.resource);
-		const available = planet.resources.find((r) => r.resource === baseCost.resource)?.amount ?? 0;
-		const cost = Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1));
 
 		return {
 			name: definition?.name ?? 'Unknown',
-			cost: formatAmount(cost),
-			affordable: available >= cost
+			cost: Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1)),
+			available: planet.resources.find((r) => r.resource === baseCost.resource)?.amount ?? 0
 		};
 	});
 }
