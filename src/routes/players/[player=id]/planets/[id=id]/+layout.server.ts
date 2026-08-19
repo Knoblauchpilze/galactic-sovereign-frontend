@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit';
+import { getPlanet } from '$lib/server/planets';
 import { getPlayer } from '$lib/server/players';
 import { getUniverse } from '$lib/server/universes';
 import type { LayoutServerLoad } from './$types';
@@ -32,6 +33,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
 	}
 
 	await getUniverse(player.universe);
+	await getPlanet(params.id);
 
 	return { player: params.player, id: params.id, planets, resources };
 };
