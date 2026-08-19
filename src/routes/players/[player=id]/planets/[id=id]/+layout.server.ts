@@ -1,3 +1,4 @@
+import { getPlayer } from '$lib/server/players';
 import type { LayoutServerLoad } from './$types';
 
 export type Planet = {
@@ -23,5 +24,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
 		{ name: 'Deuterium', amount: '3,040' }
 	];
 
-	return { player: params.player, id: params.id, planets, resources };
+	const player = await getPlayer(params.player);
+
+	return { player: params.player, id: params.id, planets, resources, playerDetails: player };
 };
