@@ -62,7 +62,15 @@
 			<div class="flex gap-2">
 				<details class="relative" bind:open={isPlanetListOpen}>
 					<summary
-						class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] cursor-pointer list-none"
+						onclick={(event) => {
+							if (otherPlanets.length === 0) {
+								event.preventDefault();
+							}
+						}}
+						class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] list-none {otherPlanets.length ===
+						0
+							? 'cursor-default'
+							: 'cursor-pointer'}"
 					>
 						{currentPlanet?.name} ({currentPlanet?.coordinates})
 					</summary>
