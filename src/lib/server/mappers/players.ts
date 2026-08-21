@@ -13,6 +13,7 @@ export type LobbyPlayer = {
 };
 
 export type PlayerPlanet = {
+	id: string;
 	name: string;
 	coordinates: string;
 };
@@ -32,6 +33,7 @@ export function mapLobbyPlayers(
 
 export function mapPlayerPlanets(planets: DtosPlayerPlanetDtoResponse[]): PlayerPlanet[] {
 	return planets.map((planet) => ({
+		id: planet.id,
 		name: planet.name,
 		coordinates: mapCoordinate(planet.coordinate)
 	}));

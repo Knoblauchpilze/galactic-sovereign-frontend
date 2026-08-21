@@ -1,13 +1,25 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { untrack } from 'svelte';
 	import { formatAmount, formatProduction, formatStorage } from '$lib/format';
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: import('svelte').Snippet } = $props();
 
-	let selectedPlanet = $state(untrack(() => data.planets[0].coordinates));
+	let isPlanetListOpen = $state(false);
+
+	const currentPlanet = $derived(data.planets.find((planet) => planet.id === data.id));
+	const otherPlanets = $derived(
+		data.planets
+			.filter((planet) => planet.id !== data.id)
+			.map((planet) => ({
+				...planet,
+				href: resolve('/players/[player=id]/planets/[id=id]', {
+					player: data.player,
+					id: planet.id
+				})
+			}))
+	);
 
 	const navItems = $derived([
 		{
@@ -48,14 +60,28 @@
 			class="flex items-center justify-between gap-6 px-6 py-4 bg-[#2a2a27] border-b border-[#444]"
 		>
 			<div class="flex gap-2">
-				<select
-					bind:value={selectedPlanet}
-					class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] cursor-pointer"
-				>
-					{#each data.planets as planet (planet.coordinates)}
-						<option value={planet.coordinates}>{planet.name} ({planet.coordinates})</option>
-					{/each}
-				</select>
+				<details class="relative" bind:open={isPlanetListOpen}>
+					<summary
+						class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] cursor-pointer list-none"
+					>
+						{currentPlanet?.name} ({currentPlanet?.coordinates})
+					</summary>
+					<ul
+						class="absolute left-0 z-10 mt-1 min-w-full whitespace-nowrap rounded border border-[#444] bg-[#333] py-1 shadow-lg"
+					>
+						{#each otherPlanets as planet (planet.id)}
+							<li>
+								<a
+									href={planet.href}
+									onclick={() => (isPlanetListOpen = false)}
+									class="block px-4 py-2 text-sm font-medium text-gray-400 hover:bg-[#444] hover:text-white"
+								>
+									{planet.name} ({planet.coordinates})
+								</a>
+							</li>
+						{/each}
+					</ul>
+				</details>
 			</div>
 
 			<div class="flex gap-6">
