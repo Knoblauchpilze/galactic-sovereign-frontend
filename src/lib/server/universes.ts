@@ -8,3 +8,10 @@ export async function getUniverse(universeId: string): Promise<DtosUniverseDtoRe
 
 	return response?.data?.details ?? null;
 }
+
+export async function getUniverses(): Promise<DtosUniverseDtoResponse[]> {
+	const client = new Api({ baseUrl: GAME_SERVICE_URL });
+	const response = await client.universes.universesList();
+
+	return response?.data?.details ?? [];
+}
