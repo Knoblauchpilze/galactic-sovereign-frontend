@@ -1,13 +1,20 @@
 import type {
 	DtosPlayerDtoResponse,
+	DtosPlayerPlanetDtoResponse,
 	DtosUniverseDtoResponse
 } from '$lib/api/galactic-sovereign/client';
+import { mapCoordinate } from './planet';
 
 export type LobbyPlayer = {
 	id: string;
 	universe: string;
 	player: string;
 	homeworld: string;
+};
+
+export type PlayerPlanet = {
+	name: string;
+	coordinates: string;
 };
 
 export function mapLobbyPlayers(
@@ -20,5 +27,12 @@ export function mapLobbyPlayers(
 		universe: universes.find((universe) => universe.id === player.universe)?.name ?? 'Unknown',
 		player: player.name,
 		homeworld: player.homeworld
+	}));
+}
+
+export function mapPlayerPlanets(planets: DtosPlayerPlanetDtoResponse[]): PlayerPlanet[] {
+	return planets.map((planet) => ({
+		name: planet.name,
+		coordinates: mapCoordinate(planet.coordinate)
 	}));
 }
