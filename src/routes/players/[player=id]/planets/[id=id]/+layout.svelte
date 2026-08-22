@@ -129,6 +129,16 @@
 				>
 					Back to lobby
 				</a>
+
+				<form method="POST" action="/logout" class="self-center">
+					<input type="hidden" name="userId" value={data.apiUser} />
+					<button
+						type="submit"
+						class="px-4 py-2 rounded text-sm font-medium text-gray-400 bg-[#333] border border-[#444] hover:bg-[#444] hover:text-white transition-colors cursor-pointer"
+					>
+						Logout
+					</button>
+				</form>
 			</div>
 		</header>
 

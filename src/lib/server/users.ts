@@ -60,3 +60,10 @@ export async function login(email: string, password: string): Promise<LoginResul
 		return { success: false, reason: 'server_error' };
 	}
 }
+
+export async function logout(userId: string): Promise<void> {
+	const client = new Api({ baseUrl: USER_SERVICE_URL });
+
+	// Best-effort revocation; a missing/already-expired session shouldn't block logging out
+	await client.users.sessionsDelete(userId).catch(() => {});
+}
