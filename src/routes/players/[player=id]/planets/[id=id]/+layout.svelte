@@ -41,6 +41,10 @@
 <div class="flex w-full min-h-screen bg-[#21211f]">
 	<nav class="w-48 shrink-0 bg-[#2a2a27] border-r border-[#444] py-6">
 		<ul class="flex flex-col gap-1 px-2">
+			<li class="flex flex-col px-4 py-2 text-sm">
+				<span class="font-medium text-gray-400">Player:</span>
+				<span class="font-bold text-white">{data.playerName}</span>
+			</li>
 			{#each navItems as item (item.href)}
 				<li>
 					<a

@@ -28,6 +28,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
 
 	return {
 		player: params.player,
+		playerName: player.name,
 		apiUser: player.api_user,
 		id: params.id,
 		planets,

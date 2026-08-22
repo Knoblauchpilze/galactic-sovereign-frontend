@@ -18,22 +18,22 @@ export function mapPlanetResources(
 ): Resource[] {
 	return planet.resources
 		.map((planetResource, index) => {
-		// universe resources hold the definition (e.g. name), planet resources only the amount
-		const definition = universe.resources.find((r) => r.id === planetResource.resource);
-		// productions are defined per building, the planet production is their sum
-		const production = planet.productions
-			.filter((p) => p.resource === planetResource.resource)
-			.reduce((total, p) => total + p.production, 0);
+			// universe resources hold the definition (e.g. name), planet resources only the amount
+			const definition = universe.resources.find((r) => r.id === planetResource.resource);
+			// productions are defined per building, the planet production is their sum
+			const production = planet.productions
+				.filter((p) => p.resource === planetResource.resource)
+				.reduce((total, p) => total + p.production, 0);
 
-		return {
-			resource: {
-				name: definition?.name ?? 'Unknown',
-				amount: planetResource.amount,
-				production,
-				storage: planet.storages.find((s) => s.resource === planetResource.resource)?.storage ?? 0
-			},
-			index
-		};
+			return {
+				resource: {
+					name: definition?.name ?? 'Unknown',
+					amount: planetResource.amount,
+					production,
+					storage: planet.storages.find((s) => s.resource === planetResource.resource)?.storage ?? 0
+				},
+				index
+			};
 		})
 		.sort((left, right) => {
 			const leftRank = resourceOrder.indexOf(left.resource.name.toLowerCase());
