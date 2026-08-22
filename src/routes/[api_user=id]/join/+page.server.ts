@@ -42,6 +42,12 @@ export const actions: Actions = {
 			return fail(statusByReason[result.reason], { reason: result.reason });
 		}
 
-		redirect(303, resolve('/[api_user=id]/lobby', { api_user: apiUserId }));
+		redirect(
+			303,
+			resolve('/players/[player=id]/planets/[id=id]', {
+				player: result.player.id,
+				id: result.player.homeworld
+			})
+		);
 	}
 };
