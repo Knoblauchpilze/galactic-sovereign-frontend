@@ -5,7 +5,17 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<div class="flex flex-col items-center w-full min-h-screen bg-[#21211f] px-4 py-12">
+<div class="relative flex flex-col items-center w-full min-h-screen bg-[#21211f] px-4 py-12">
+	<form method="POST" action="/logout" class="absolute top-4 right-4">
+		<input type="hidden" name="userId" value={data.apiUserId} />
+		<button
+			type="submit"
+			class="px-4 py-2 rounded text-sm font-medium text-gray-400 bg-[#333] border border-[#444] hover:bg-[#444] hover:text-white transition-colors cursor-pointer"
+		>
+			Logout
+		</button>
+	</form>
+
 	<h1 class="text-white text-3xl mb-2">Galactic Sovereign</h1>
 	<p class="text-gray-400 text-base mb-10">Welcome back, Commander</p>
 
