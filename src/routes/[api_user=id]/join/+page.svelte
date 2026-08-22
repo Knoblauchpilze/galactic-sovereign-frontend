@@ -30,11 +30,19 @@
 			/>
 		</label>
 
-		<a
-			href={resolve('/[api_user=id]/lobby', { api_user: data.apiUserId })}
-			class="px-6 py-2 bg-[#444] text-white border-0 rounded text-base font-medium cursor-pointer transition-colors hover:bg-[#555] active:bg-[#333]"
-		>
-			Back to lobby
-		</a>
+		<div class="flex items-center gap-4">
+			<a
+				href={resolve('/[api_user=id]/lobby', { api_user: data.apiUserId })}
+				class="px-6 py-2 bg-red-800 text-white border-0 rounded text-base font-medium cursor-pointer transition-colors hover:bg-red-400 active:bg-red-600"
+			>
+				Back to lobby
+			</a>
+
+			<button
+				class="px-6 py-2 bg-green-600 text-white border-0 rounded text-base font-medium cursor-pointer transition-colors hover:bg-green-400 active:bg-green-600"
+			>
+				Join
+			</button>
+		</div>
 	</div>
 </div>
