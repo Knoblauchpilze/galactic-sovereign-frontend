@@ -69,10 +69,10 @@
 								event.preventDefault();
 							}
 						}}
-						class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] list-none {otherPlanets.length ===
+						class="px-4 py-2 rounded text-sm font-medium text-white bg-[#333] border border-[#444] {otherPlanets.length ===
 						0
-							? 'cursor-default'
-							: 'cursor-pointer'}"
+							? 'cursor-default list-none'
+							: 'cursor-pointer hover:bg-[#444]'}"
 					>
 						{currentPlanet?.name} ({currentPlanet?.coordinates})
 					</summary>
