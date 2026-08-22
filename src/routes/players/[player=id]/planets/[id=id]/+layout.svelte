@@ -34,6 +34,8 @@
 			})
 		}
 	]);
+
+	const lobbyHref = $derived(resolve('/[api_user=id]/lobby', { api_user: data.apiUser }));
 </script>
 
 <div class="flex w-full min-h-screen bg-[#21211f]">
@@ -120,6 +122,13 @@
 						</div>
 					</div>
 				{/each}
+
+				<a
+					href={lobbyHref}
+					class="self-center px-4 py-2 rounded text-sm font-medium text-gray-400 bg-[#333] border border-[#444] hover:bg-[#444] hover:text-white transition-colors"
+				>
+					Back to lobby
+				</a>
 			</div>
 		</header>
 
