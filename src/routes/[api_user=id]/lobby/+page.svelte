@@ -40,10 +40,19 @@
 		{/each}
 	</div>
 
-	<button
-		disabled={data.hasJoinedAllUniverses}
-		class="px-6 py-2 bg-[#444] text-white border-0 rounded text-base font-medium transition-colors hover:enabled:bg-[#555] active:enabled:bg-[#333] disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer"
-	>
-		Join a new universe
-	</button>
+	{#if data.hasJoinedAllUniverses}
+		<button
+			disabled
+			class="px-6 py-2 bg-[#444] text-white border-0 rounded text-base font-medium opacity-50 cursor-not-allowed"
+		>
+			Join a new universe
+		</button>
+	{:else}
+		<a
+			href={resolve('/[api_user=id]/join', { api_user: data.apiUserId })}
+			class="px-6 py-2 bg-[#444] text-white border-0 rounded text-base font-medium transition-colors hover:bg-[#555] active:bg-[#333] cursor-pointer"
+		>
+			Join a new universe
+		</a>
+	{/if}
 </div>
