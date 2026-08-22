@@ -13,5 +13,9 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	const players = mapLobbyPlayers(apiUserPlayers, universes);
 
-	return { apiUserId, players };
+	const joinedUniverseIds = new Set(apiUserPlayers.map((player) => player.universe));
+	const hasJoinedAllUniverses =
+		universes.length > 0 && universes.every((universe) => joinedUniverseIds.has(universe.id));
+
+	return { apiUserId, players, hasJoinedAllUniverses };
 };
