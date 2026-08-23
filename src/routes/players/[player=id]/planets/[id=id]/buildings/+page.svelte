@@ -46,17 +46,26 @@
 		<div
 			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
 		>
-			<div class="flex flex-col gap-1">
+			<div class="flex flex-col gap-2">
 				<div class="flex items-baseline gap-2">
 					<span class="text-white font-medium capitalize">{building.name}</span>
 					<span class="text-gray-400 text-xs uppercase tracking-wider">Level {building.level}</span>
 				</div>
-				<div class="flex flex-wrap gap-x-4 gap-y-1">
-					{#each building.costs as cost (cost.name)}
-						<span class="text-xs {cost.available >= cost.cost ? 'text-green-400' : 'text-red-400'}">
-							<span class="capitalize">{cost.name}</span>: {formatAmount(cost.cost)}
-						</span>
-					{/each}
+				<div
+					class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
+				>
+					<span class="text-gray-400 text-[10px] uppercase tracking-wider"
+						>Required for level {building.level + 1}</span
+					>
+					<div class="flex flex-col items-start gap-0.5">
+						{#each building.costs as cost (cost.name)}
+							<span
+								class="text-xs {cost.available >= cost.cost ? 'text-green-400' : 'text-red-400'}"
+							>
+								<span class="capitalize">{cost.name}</span>: {formatAmount(cost.cost)}
+							</span>
+						{/each}
+					</div>
 				</div>
 			</div>
 			<div class="flex items-center gap-4">
