@@ -8,6 +8,7 @@ export type BuildingActionOverview = {
 	buildingName: string;
 	currentLevel: number;
 	desiredLevel: number;
+	completedAt: string;
 	remainingSeconds: number;
 };
 
@@ -26,6 +27,7 @@ export function mapBuildingActionOverview(
 		buildingName: definition?.name ?? 'Unknown',
 		currentLevel: action.desired_level - 1,
 		desiredLevel: action.desired_level,
+		completedAt: action.completed_at,
 		remainingSeconds: mapRemainingSeconds(action.completed_at)
 	};
 }

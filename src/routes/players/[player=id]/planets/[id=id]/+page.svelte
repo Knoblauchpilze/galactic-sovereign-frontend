@@ -1,8 +1,37 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { formatDuration } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+	let remainingSeconds = $state<number>();
+
+	$effect(() => {
+		const buildingAction = data.buildingAction;
+		if (!buildingAction) {
+			remainingSeconds = undefined;
+			return;
+		}
+
+		let invalidated = false;
+		const completedAt = new Date(buildingAction.completedAt).getTime();
+		const updateRemainingSeconds = () => {
+			remainingSeconds = Math.max(0, (completedAt - Date.now()) / 1000);
+
+			if (!invalidated && remainingSeconds === 0) {
+				invalidated = true;
+				void invalidateAll();
+			}
+		};
+
+		updateRemainingSeconds();
+
+		const interval = window.setInterval(updateRemainingSeconds, 1000);
+
+		return () => {
+			window.clearInterval(interval);
+		};
+	});
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
@@ -33,7 +62,7 @@
 						</span>
 					</div>
 					<span class="text-gray-400 text-xs">
-						Remaining: {formatDuration(data.buildingAction.remainingSeconds)}
+						Remaining: {formatDuration(remainingSeconds ?? data.buildingAction.remainingSeconds)}
 					</span>
 				</div>
 				<form method="POST" action="?/cancel">
