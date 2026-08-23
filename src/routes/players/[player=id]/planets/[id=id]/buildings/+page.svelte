@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { formatAmount, formatDuration } from '$lib/format';
+	import { formatAmount, formatDuration, formatProduction } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -51,21 +51,39 @@
 					<span class="text-white font-medium capitalize">{building.name}</span>
 					<span class="text-gray-400 text-xs uppercase tracking-wider">Level {building.level}</span>
 				</div>
-				<div
-					class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
-				>
-					<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-						>Required for level {building.level + 1}:</span
+				<div class="flex items-start gap-2">
+					<div
+						class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 					>
-					<div class="flex flex-col items-start gap-0.5">
-						{#each building.costs as cost (cost.name)}
-							<span
-								class="text-xs {cost.available >= cost.cost ? 'text-green-400' : 'text-red-400'}"
-							>
-								<span class="capitalize">{cost.name}</span>: {formatAmount(cost.cost)}
-							</span>
-						{/each}
+						<span class="text-gray-400 text-[10px] uppercase tracking-wider"
+							>Required for level {building.level + 1}:</span
+						>
+						<div class="flex flex-col items-start gap-0.5">
+							{#each building.costs as cost (cost.name)}
+								<span
+									class="text-xs {cost.available >= cost.cost ? 'text-green-400' : 'text-red-400'}"
+								>
+									<span class="capitalize">{cost.name}</span>: {formatAmount(cost.cost)}
+								</span>
+							{/each}
+						</div>
 					</div>
+					{#if building.productionGains.length > 0}
+						<div
+							class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
+						>
+							<span class="text-gray-400 text-[10px] uppercase tracking-wider"
+								>Production for level {building.level + 1}:</span
+							>
+							<div class="flex flex-col items-start gap-0.5">
+								{#each building.productionGains as gain (gain.name)}
+									<span class="text-xs text-green-400">
+										<span class="capitalize">{gain.name}</span>: {formatProduction(gain.gain)}
+									</span>
+								{/each}
+							</div>
+						</div>
+					{/if}
 				</div>
 			</div>
 			<div class="flex items-center gap-4">

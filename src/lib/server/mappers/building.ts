@@ -42,11 +42,17 @@ export type BuildingCost = {
 	available: number;
 };
 
+export type BuildingProductionGain = {
+	name: string;
+	gain: number;
+};
+
 export type Building = {
 	id: string;
 	name: string;
 	level: number;
 	costs: BuildingCost[];
+	productionGains: BuildingProductionGain[];
 	affordable: boolean;
 };
 
@@ -60,12 +66,16 @@ export function mapPlanetBuildings(
 		const costs = definition
 			? mapUpgradeCosts(definition, planetBuilding.level + 1, planet, universe)
 			: [];
+		const productionGains = definition
+			? mapProductionGains(definition, planetBuilding.level, universe)
+			: [];
 
 		return {
 			id: planetBuilding.building,
 			name: definition?.name ?? 'Unknown',
 			level: planetBuilding.level,
 			costs,
+			productionGains,
 			affordable: costs.every((cost) => cost.available >= cost.cost)
 		};
 	});
@@ -86,4 +96,26 @@ function mapUpgradeCosts(
 			available: planet.resources.find((r) => r.resource === baseCost.resource)?.amount ?? 0
 		};
 	});
+}
+
+function mapProductionGains(
+	building: DtosBuildingDtoResponse,
+	currentLevel: number,
+	universe: DtosUniverseDtoResponse
+): BuildingProductionGain[] {
+	return building.productions
+		.map((production) => {
+			const definition = universe.resources.find((r) => r.id === production.resource);
+			// matches determineActionResourceProduction from the galactic-sovereign backend
+			const currentProduction =
+				currentLevel * production.base * Math.pow(production.progress, currentLevel);
+			const nextLevel = currentLevel + 1;
+			const nextProduction = nextLevel * production.base * Math.pow(production.progress, nextLevel);
+
+			return {
+				name: definition?.name ?? 'Unknown',
+				gain: Math.floor(nextProduction) - Math.floor(currentProduction)
+			};
+		})
+		.filter((gain) => gain.gain !== 0);
 }
