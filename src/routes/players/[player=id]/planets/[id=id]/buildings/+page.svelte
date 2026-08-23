@@ -114,6 +114,15 @@
 							{formatDuration(remainingSeconds)}
 						</span>
 					</div>
+				{:else}
+					<div
+						class="flex flex-col items-center gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded"
+					>
+						<span class="text-gray-400 text-[10px] uppercase tracking-wider">Completion time</span>
+						<span class="text-white text-sm font-medium">
+							{formatDuration(building.completionSeconds)}
+						</span>
+					</div>
 				{/if}
 				<form
 					method="POST"

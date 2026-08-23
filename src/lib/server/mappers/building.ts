@@ -59,6 +59,7 @@ export type Building = {
 	costs: BuildingCost[];
 	productionGains: BuildingProductionGain[];
 	storageGains: BuildingStorageGain[];
+	completionSeconds: number;
 	affordable: boolean;
 };
 
@@ -78,6 +79,9 @@ export function mapPlanetBuildings(
 		const storageGains = definition
 			? mapStorageGains(definition, planetBuilding.level, universe)
 			: [];
+		const completionSeconds = definition
+			? mapCompletionSeconds(definition, planetBuilding.level + 1, universe)
+			: 0;
 
 		return {
 			id: planetBuilding.building,
@@ -86,6 +90,7 @@ export function mapPlanetBuildings(
 			costs,
 			productionGains,
 			storageGains,
+			completionSeconds,
 			affordable: costs.every((cost) => cost.available >= cost.cost)
 		};
 	});
@@ -106,6 +111,22 @@ function mapUpgradeCosts(
 			available: planet.resources.find((r) => r.resource === baseCost.resource)?.amount ?? 0
 		};
 	});
+}
+
+function mapCompletionSeconds(
+	building: DtosBuildingDtoResponse,
+	desiredLevel: number,
+	universe: DtosUniverseDtoResponse
+): number {
+	// matches determineCompletionTime from the galactic-sovereign backend
+	const buildTimeHours = building.costs.reduce((total, baseCost) => {
+		const definition = universe.resources.find((r) => r.id === baseCost.resource);
+		const cost = Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1));
+
+		return total + cost * (definition?.build_time_hours_per_unit ?? 0);
+	}, 0);
+
+	return Math.floor(buildTimeHours * 3600);
 }
 
 function mapProductionGains(
