@@ -25,3 +25,17 @@ export async function createBuildingAction(
 		return { success: false, reason: 'server_error' };
 	}
 }
+
+export type DeleteBuildingActionResult =
+	{ success: true } | { success: false; reason: 'server_error' };
+
+export async function deleteBuildingAction(planetId: string): Promise<DeleteBuildingActionResult> {
+	try {
+		const client = new Api({ baseUrl: GAME_SERVICE_URL });
+		await client.planets.actionsDelete(planetId);
+
+		return { success: true };
+	} catch {
+		return { success: false, reason: 'server_error' };
+	}
+}

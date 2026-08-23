@@ -4,6 +4,33 @@ import type {
 	DtosUniverseDtoResponse
 } from '$lib/api/galactic-sovereign/client';
 
+export type BuildingActionOverview = {
+	buildingName: string;
+	currentLevel: number;
+	desiredLevel: number;
+	remainingSeconds: number;
+};
+
+export function mapBuildingActionOverview(
+	planet: DtosPlanetDtoResponse,
+	universe: DtosUniverseDtoResponse
+): BuildingActionOverview | null {
+	const action = planet.building_action;
+	if (!action) {
+		return null;
+	}
+
+	const definition = universe.buildings.find((b) => b.id === action.building);
+	const remainingSeconds = (new Date(action.completed_at).getTime() - Date.now()) / 1000;
+
+	return {
+		buildingName: definition?.name ?? 'Unknown',
+		currentLevel: action.desired_level - 1,
+		desiredLevel: action.desired_level,
+		remainingSeconds: Math.max(0, remainingSeconds)
+	};
+}
+
 export type BuildingCost = {
 	name: string;
 	cost: number;

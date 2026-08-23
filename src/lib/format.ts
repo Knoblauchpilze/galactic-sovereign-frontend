@@ -14,3 +14,12 @@ export function formatStorage(storage: number): string {
 	}
 	return `${Math.round(storage / 1_000).toLocaleString('en-US')}k`;
 }
+
+export function formatDuration(seconds: number): string {
+	const clamped = Math.max(0, Math.floor(seconds));
+	const hours = Math.floor(clamped / 3600);
+	const minutes = Math.floor((clamped % 3600) / 60);
+	const secs = clamped % 60;
+
+	return [hours, minutes, secs].map((unit) => String(unit).padStart(2, '0')).join(':');
+}
