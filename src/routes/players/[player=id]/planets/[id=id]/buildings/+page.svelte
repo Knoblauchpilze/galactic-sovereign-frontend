@@ -55,7 +55,7 @@
 					class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 				>
 					<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-						>Required for level {building.level + 1}</span
+						>Required for level {building.level + 1}:</span
 					>
 					<div class="flex flex-col items-start gap-0.5">
 						{#each building.costs as cost (cost.name)}
