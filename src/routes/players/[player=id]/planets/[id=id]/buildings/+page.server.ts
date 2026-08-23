@@ -1,13 +1,14 @@
 import { fail } from '@sveltejs/kit';
 import { mapPlanetBuildings } from '$lib/server/mappers/building';
 import { createBuildingAction } from '$lib/server/planets';
+import { orderPlanetBuildings } from '$lib/server/views/building';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	const { planet, universe } = await parent();
 
 	return {
-		buildings: mapPlanetBuildings(planet, universe),
+		buildings: orderPlanetBuildings(mapPlanetBuildings(planet, universe)),
 		actionInProgress: Boolean(planet.building_action)
 	};
 };
