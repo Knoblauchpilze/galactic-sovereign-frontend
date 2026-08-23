@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { mapPlanetBuildings } from '$lib/server/mappers/building';
-import { createBuildingAction } from '$lib/server/planets';
+import { createBuildingAction, deleteBuildingAction } from '$lib/server/planets';
 import { orderPlanetBuildings } from '$lib/server/views/building';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 	return {
 		buildings: orderPlanetBuildings(mapPlanetBuildings(planet, universe)),
-		actionInProgress: Boolean(planet.building_action)
+		actionBuildingId: planet.building_action?.building ?? null
 	};
 };
 
@@ -25,6 +25,16 @@ export const actions: Actions = {
 		const result = await createBuildingAction(params.id, building);
 
 		console.log('result: ', JSON.stringify(result));
+
+		if (!result.success) {
+			return fail(500, { reason: result.reason });
+		}
+
+		return { success: true };
+	},
+
+	cancel: async ({ params }) => {
+		const result = await deleteBuildingAction(params.id);
 
 		if (!result.success) {
 			return fail(500, { reason: result.reason });
