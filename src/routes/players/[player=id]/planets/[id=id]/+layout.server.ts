@@ -3,6 +3,7 @@ import { getPlanet } from '$lib/server/planets';
 import { getPlayer } from '$lib/server/players';
 import { mapPlanetResources } from '$lib/server/mappers/planet';
 import { mapPlayerPlanets } from '$lib/server/mappers/players';
+import { orderPlanetResources } from '$lib/server/views/planet';
 import { getUniverse } from '$lib/server/universes';
 import type { LayoutServerLoad } from './$types';
 
@@ -24,7 +25,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
 		error(404, 'Planet not found');
 	}
 
-	const resources = mapPlanetResources(planet, universe);
+	const resources = orderPlanetResources(mapPlanetResources(planet, universe));
 
 	return {
 		player: params.player,
