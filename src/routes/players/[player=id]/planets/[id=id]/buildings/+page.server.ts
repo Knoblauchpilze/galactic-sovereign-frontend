@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { mapPlanetBuildings } from '$lib/server/mappers/building';
+import { mapPlanetBuildings, mapRemainingSeconds } from '$lib/server/mappers/building';
 import { createBuildingAction, deleteBuildingAction } from '$lib/server/planets';
 import { orderPlanetBuildings } from '$lib/server/views/building';
 import type { Actions, PageServerLoad } from './$types';
@@ -9,7 +9,10 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 	return {
 		buildings: orderPlanetBuildings(mapPlanetBuildings(planet, universe)),
-		actionBuildingId: planet.building_action?.building ?? null
+		actionBuildingId: planet.building_action?.building ?? null,
+		actionRemainingSeconds: planet.building_action
+			? mapRemainingSeconds(planet.building_action.completed_at)
+			: null
 	};
 };
 

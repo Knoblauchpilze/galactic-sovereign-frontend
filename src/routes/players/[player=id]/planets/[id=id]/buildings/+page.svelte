@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatAmount } from '$lib/format';
+	import { formatAmount, formatDuration } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -23,22 +23,39 @@
 					{/each}
 				</div>
 			</div>
-			<form method="POST" action={building.id === data.actionBuildingId ? '?/cancel' : '?/upgrade'}>
-				<input type="hidden" name="building" value={building.id} />
-				<button
-					type="submit"
-					disabled={building.id !== data.actionBuildingId &&
-						(data.actionBuildingId !== null || !building.affordable)}
-					class="px-5 py-2 text-white border-0 rounded text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer {building.id ===
-					data.actionBuildingId
-						? 'bg-red-800 hover:enabled:bg-red-400 active:enabled:bg-red-600'
-						: building.affordable
-							? 'bg-green-600 hover:enabled:bg-green-400 active:enabled:bg-green-600'
-							: 'bg-red-800 hover:enabled:bg-red-400 active:enabled:bg-red-600'}"
+			<div class="flex items-center gap-4">
+				{#if building.id === data.actionBuildingId && data.actionRemainingSeconds !== null}
+					<div
+						class="flex flex-col items-center gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded"
+					>
+						<span class="text-gray-400 text-[10px] uppercase tracking-wider"
+							>Upgrade complete in</span
+						>
+						<span class="text-white text-sm font-medium">
+							{formatDuration(data.actionRemainingSeconds)}
+						</span>
+					</div>
+				{/if}
+				<form
+					method="POST"
+					action={building.id === data.actionBuildingId ? '?/cancel' : '?/upgrade'}
 				>
-					{building.id === data.actionBuildingId ? 'Cancel' : 'Upgrade'}
-				</button>
-			</form>
+					<input type="hidden" name="building" value={building.id} />
+					<button
+						type="submit"
+						disabled={building.id !== data.actionBuildingId &&
+							(data.actionBuildingId !== null || !building.affordable)}
+						class="px-5 py-2 text-white border-0 rounded text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer {building.id ===
+						data.actionBuildingId
+							? 'bg-red-800 hover:enabled:bg-red-400 active:enabled:bg-red-600'
+							: building.affordable
+								? 'bg-green-600 hover:enabled:bg-green-400 active:enabled:bg-green-600'
+								: 'bg-red-800 hover:enabled:bg-red-400 active:enabled:bg-red-600'}"
+					>
+						{building.id === data.actionBuildingId ? 'Cancel' : 'Upgrade'}
+					</button>
+				</form>
+			</div>
 		</div>
 	{/each}
 </main>

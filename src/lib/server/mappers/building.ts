@@ -21,14 +21,17 @@ export function mapBuildingActionOverview(
 	}
 
 	const definition = universe.buildings.find((b) => b.id === action.building);
-	const remainingSeconds = (new Date(action.completed_at).getTime() - Date.now()) / 1000;
 
 	return {
 		buildingName: definition?.name ?? 'Unknown',
 		currentLevel: action.desired_level - 1,
 		desiredLevel: action.desired_level,
-		remainingSeconds: Math.max(0, remainingSeconds)
+		remainingSeconds: mapRemainingSeconds(action.completed_at)
 	};
+}
+
+export function mapRemainingSeconds(completedAt: string): number {
+	return Math.max(0, (new Date(completedAt).getTime() - Date.now()) / 1000);
 }
 
 export type BuildingCost = {
