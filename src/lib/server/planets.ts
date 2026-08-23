@@ -8,3 +8,20 @@ export async function getPlanet(planetId: string): Promise<DtosPlanetDtoResponse
 
 	return response?.data?.details ?? null;
 }
+
+export type CreateBuildingActionResult =
+	{ success: true } | { success: false; reason: 'server_error' };
+
+export async function createBuildingAction(
+	planetId: string,
+	buildingId: string
+): Promise<CreateBuildingActionResult> {
+	try {
+		const client = new Api({ baseUrl: GAME_SERVICE_URL });
+		await client.planets.actionsCreate(planetId, { building: buildingId });
+
+		return { success: true };
+	} catch {
+		return { success: false, reason: 'server_error' };
+	}
+}

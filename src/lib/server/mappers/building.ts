@@ -11,6 +11,7 @@ export type BuildingCost = {
 };
 
 export type Building = {
+	id: string;
 	name: string;
 	level: number;
 	costs: BuildingCost[];
@@ -25,6 +26,7 @@ export function mapPlanetBuildings(
 		const definition = universe.buildings.find((b) => b.id === planetBuilding.building);
 
 		return {
+			id: planetBuilding.building,
 			name: definition?.name ?? 'Unknown',
 			level: planetBuilding.level,
 			costs: definition
