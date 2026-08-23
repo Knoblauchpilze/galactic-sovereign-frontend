@@ -1,8 +1,44 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import { formatAmount, formatDuration } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+	let now = $state(Date.now());
+	let invalidatedCompletedAt = $state<string>();
+	let remainingSeconds = $derived.by(() => {
+		if (!data.actionCompletedAt) {
+			return undefined;
+		}
+
+		return Math.max(0, (new Date(data.actionCompletedAt).getTime() - now) / 1000);
+	});
+
+	$effect(() => {
+		if (!data.actionCompletedAt) {
+			return;
+		}
+
+		now = Date.now();
+
+		const interval = window.setInterval(() => {
+			now = Date.now();
+		}, 1000);
+
+		return () => {
+			window.clearInterval(interval);
+		};
+	});
+
+	$effect(() => {
+		const completedAt = data.actionCompletedAt;
+		if (!completedAt || remainingSeconds !== 0 || invalidatedCompletedAt === completedAt) {
+			return;
+		}
+
+		invalidatedCompletedAt = completedAt;
+		void invalidateAll();
+	});
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
@@ -24,7 +60,7 @@
 				</div>
 			</div>
 			<div class="flex items-center gap-4">
-				{#if building.id === data.actionBuildingId && data.actionRemainingSeconds !== null}
+				{#if building.id === data.actionBuildingId && remainingSeconds !== undefined}
 					<div
 						class="flex flex-col items-center gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded"
 					>
@@ -32,7 +68,7 @@
 							>Upgrade complete in</span
 						>
 						<span class="text-white text-sm font-medium">
-							{formatDuration(data.actionRemainingSeconds)}
+							{formatDuration(remainingSeconds)}
 						</span>
 					</div>
 				{/if}
