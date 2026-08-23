@@ -32,5 +32,5 @@ export function mapPlanetResources(
 }
 
 export function mapCoordinate(coordinate: DtosPlanetDtoResponse['coordinate']): string {
-	return `${coordinate.galaxy}:${coordinate.solar_system}:${coordinate.position}`;
+	return `${coordinate.galaxy + 1}:${coordinate.solar_system + 1}:${coordinate.position + 1}`;
 }
