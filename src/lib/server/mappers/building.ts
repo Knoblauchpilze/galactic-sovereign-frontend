@@ -15,6 +15,7 @@ export type Building = {
 	name: string;
 	level: number;
 	costs: BuildingCost[];
+	affordable: boolean;
 };
 
 export function mapPlanetBuildings(
@@ -24,14 +25,16 @@ export function mapPlanetBuildings(
 	return planet.buildings.map((planetBuilding) => {
 		// universe buildings hold the definition (e.g. name), planet buildings only the level
 		const definition = universe.buildings.find((b) => b.id === planetBuilding.building);
+		const costs = definition
+			? mapUpgradeCosts(definition, planetBuilding.level + 1, planet, universe)
+			: [];
 
 		return {
 			id: planetBuilding.building,
 			name: definition?.name ?? 'Unknown',
 			level: planetBuilding.level,
-			costs: definition
-				? mapUpgradeCosts(definition, planetBuilding.level + 1, planet, universe)
-				: []
+			costs,
+			affordable: costs.every((cost) => cost.available >= cost.cost)
 		};
 	});
 }

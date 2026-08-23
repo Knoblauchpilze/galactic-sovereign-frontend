@@ -6,7 +6,10 @@ import type { Actions, PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ parent }) => {
 	const { planet, universe } = await parent();
 
-	return { buildings: mapPlanetBuildings(planet, universe) };
+	return {
+		buildings: mapPlanetBuildings(planet, universe),
+		actionInProgress: Boolean(planet.building_action)
+	};
 };
 
 export const actions: Actions = {
@@ -19,6 +22,8 @@ export const actions: Actions = {
 		}
 
 		const result = await createBuildingAction(params.id, building);
+
+		console.log('result: ', JSON.stringify(result));
 
 		if (!result.success) {
 			return fail(500, { reason: result.reason });
