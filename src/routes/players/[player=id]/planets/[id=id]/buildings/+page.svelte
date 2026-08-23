@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { formatAmount, formatDuration, formatProduction } from '$lib/format';
+	import { formatAmount, formatDuration, formatProduction, formatStorage } from '$lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -73,12 +73,28 @@
 							class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 						>
 							<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-								>Production for level {building.level + 1}:</span
+								>Production gain for level {building.level + 1}:</span
 							>
 							<div class="flex flex-col items-start gap-0.5">
 								{#each building.productionGains as gain (gain.name)}
 									<span class="text-xs text-green-400">
 										<span class="capitalize">{gain.name}</span>: {formatProduction(gain.gain)}
+									</span>
+								{/each}
+							</div>
+						</div>
+					{/if}
+					{#if building.storageGains.length > 0}
+						<div
+							class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
+						>
+							<span class="text-gray-400 text-[10px] uppercase tracking-wider"
+								>Storage gain for level {building.level + 1}:</span
+							>
+							<div class="flex flex-col items-start gap-0.5">
+								{#each building.storageGains as gain (gain.name)}
+									<span class="text-xs text-green-400">
+										<span class="capitalize">{gain.name}</span>: +{formatStorage(gain.gain)}
 									</span>
 								{/each}
 							</div>

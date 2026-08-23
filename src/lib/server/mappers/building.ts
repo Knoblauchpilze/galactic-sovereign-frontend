@@ -47,12 +47,18 @@ export type BuildingProductionGain = {
 	gain: number;
 };
 
+export type BuildingStorageGain = {
+	name: string;
+	gain: number;
+};
+
 export type Building = {
 	id: string;
 	name: string;
 	level: number;
 	costs: BuildingCost[];
 	productionGains: BuildingProductionGain[];
+	storageGains: BuildingStorageGain[];
 	affordable: boolean;
 };
 
@@ -69,6 +75,9 @@ export function mapPlanetBuildings(
 		const productionGains = definition
 			? mapProductionGains(definition, planetBuilding.level, universe)
 			: [];
+		const storageGains = definition
+			? mapStorageGains(definition, planetBuilding.level, universe)
+			: [];
 
 		return {
 			id: planetBuilding.building,
@@ -76,6 +85,7 @@ export function mapPlanetBuildings(
 			level: planetBuilding.level,
 			costs,
 			productionGains,
+			storageGains,
 			affordable: costs.every((cost) => cost.available >= cost.cost)
 		};
 	});
@@ -115,6 +125,29 @@ function mapProductionGains(
 			return {
 				name: definition?.name ?? 'Unknown',
 				gain: Math.floor(nextProduction) - Math.floor(currentProduction)
+			};
+		})
+		.filter((gain) => gain.gain !== 0);
+}
+
+function mapStorageGains(
+	building: DtosBuildingDtoResponse,
+	currentLevel: number,
+	universe: DtosUniverseDtoResponse
+): BuildingStorageGain[] {
+	return building.storages
+		.map((storage) => {
+			const definition = universe.resources.find((r) => r.id === storage.resource);
+			// matches determineActionResourceStorage from the galactic-sovereign backend
+			const currentStorage =
+				storage.base * Math.floor(storage.scale * Math.pow(storage.progress, currentLevel));
+			const nextLevel = currentLevel + 1;
+			const nextStorage =
+				storage.base * Math.floor(storage.scale * Math.pow(storage.progress, nextLevel));
+
+			return {
+				name: definition?.name ?? 'Unknown',
+				gain: Math.floor(nextStorage) - Math.floor(currentStorage)
 			};
 		})
 		.filter((gain) => gain.gain !== 0);
