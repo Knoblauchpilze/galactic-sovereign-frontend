@@ -123,7 +123,7 @@ function mapCompletionSeconds(
 		const definition = universe.resources.find((r) => r.id === baseCost.resource);
 		const cost = Math.floor(baseCost.cost * Math.pow(baseCost.progress, desiredLevel - 1));
 
-		return total + cost * (definition?.build_time_hours_per_unit ?? 0);
+		return total + cost * (definition?.building_build_time_hours_per_unit ?? 0);
 	}, 0);
 
 	return Math.floor(buildTimeHours * 3600);
