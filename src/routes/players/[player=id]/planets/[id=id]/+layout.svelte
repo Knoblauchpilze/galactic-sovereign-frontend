@@ -32,6 +32,13 @@
 				player: data.player,
 				id: data.id
 			})
+		},
+		{
+			label: 'Shipyard',
+			href: resolve('/players/[player=id]/planets/[id=id]/shipyard', {
+				player: data.player,
+				id: data.id
+			})
 		}
 	]);
 
