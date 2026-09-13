@@ -3,6 +3,14 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	let buildQuantities: Record<string, number | undefined> = $state({});
+
+	function sanitizeQuantityInput(shipId: string, event: Event & { currentTarget: HTMLInputElement }) {
+		const digitsOnly = event.currentTarget.value.replace(/\D/g, '');
+		event.currentTarget.value = digitsOnly;
+		buildQuantities[shipId] = digitsOnly ? Number(digitsOnly) : undefined;
+	}
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
@@ -40,6 +48,23 @@
 					<span class="text-white text-sm font-medium">
 						{formatDuration(ship.completionSeconds)}
 					</span>
+				</div>
+				<div class="flex flex-col gap-2">
+					<input
+						type="text"
+						inputmode="numeric"
+						pattern="[0-9]*"
+						placeholder="Count"
+						value={buildQuantities[ship.id] ?? ''}
+						oninput={(event) => sanitizeQuantityInput(ship.id, event)}
+						class="w-20 px-2 py-1.5 bg-white border border-[#444] rounded text-black text-sm text-center focus:outline-none focus:border-gray-400"
+					/>
+					<button
+						type="button"
+						class="w-20 px-4 py-1.5 bg-[#444] hover:bg-[#555] border border-[#666] rounded text-white text-sm font-medium"
+					>
+						Build
+					</button>
 				</div>
 			</div>
 		</div>
