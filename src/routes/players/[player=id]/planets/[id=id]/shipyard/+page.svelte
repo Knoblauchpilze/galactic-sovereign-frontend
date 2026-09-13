@@ -55,6 +55,11 @@
 					<span class="text-gray-400 text-xs uppercase tracking-wider"
 						>{formatAmount(ship.available)} available</span
 					>
+					{#if ship.queued > 0}
+						<span class="text-green-600 text-xs uppercase tracking-wider"
+							>({formatAmount(ship.queued)} queued)</span
+						>
+					{/if}
 				</div>
 				<div
 					class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"

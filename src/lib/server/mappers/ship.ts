@@ -16,6 +16,7 @@ export type Ship = {
 	id: string;
 	name: string;
 	available: number;
+	queued: number;
 	costs: ShipCost[];
 	completionSeconds: number;
 	requirementsMet: boolean;
@@ -103,19 +104,28 @@ export function mapPlanetShips(
 	planet: DtosPlanetDtoResponse,
 	universe: DtosUniverseDtoResponse
 ): Ship[] {
-	return universe.ships.map((ship) => ({
-		id: ship.id,
-		name: ship.name,
-		available: planet.ships.find((planetShip) => planetShip.ship === ship.id)?.count ?? 0,
-		costs: ship.costs.map((cost) => ({
-			name: universe.resources.find((resource) => resource.id === cost.resource)?.name ?? 'Unknown',
-			cost: cost.cost,
-			available:
-				planet.resources.find((resource) => resource.resource === cost.resource)?.amount ?? 0
-		})),
-		completionSeconds: mapCompletionSeconds(ship, planet, universe),
-		requirementsMet: mapRequirementsMet(ship, planet)
-	}));
+	return universe.ships.map((ship) => {
+		const queued =
+			planet.ship_actions
+				?.filter((action) => action.ship === ship.id)
+				.reduce((sum, action) => sum + action.count, 0) ?? 0;
+
+		return {
+			id: ship.id,
+			name: ship.name,
+			available: planet.ships.find((planetShip) => planetShip.ship === ship.id)?.count ?? 0,
+			queued,
+			costs: ship.costs.map((cost) => ({
+				name:
+					universe.resources.find((resource) => resource.id === cost.resource)?.name ?? 'Unknown',
+				cost: cost.cost,
+				available:
+					planet.resources.find((resource) => resource.resource === cost.resource)?.amount ?? 0
+			})),
+			completionSeconds: mapCompletionSeconds(ship, planet, universe),
+			requirementsMet: mapRequirementsMet(ship, planet)
+		};
+	});
 }
 
 function mapRequirementsMet(ship: DtosShipDtoResponse, planet: DtosPlanetDtoResponse): boolean {
