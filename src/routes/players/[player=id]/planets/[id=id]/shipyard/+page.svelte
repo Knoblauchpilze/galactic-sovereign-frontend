@@ -1,15 +1,24 @@
 <script lang="ts">
 	import { formatAmount, formatDuration } from '$lib/format';
+	import type { Ship } from '$lib/server/mappers/ship';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
 	let buildQuantities: Record<string, number | undefined> = $state({});
 
-	function sanitizeQuantityInput(shipId: string, event: Event & { currentTarget: HTMLInputElement }) {
+	function maxBuildable(ship: Ship): number {
+		const limits = ship.costs
+			.filter((cost) => cost.cost > 0)
+			.map((cost) => Math.floor(cost.available / cost.cost));
+		return limits.length > 0 ? Math.min(...limits) : Infinity;
+	}
+
+	function sanitizeQuantityInput(ship: Ship, event: Event & { currentTarget: HTMLInputElement }) {
 		const digitsOnly = event.currentTarget.value.replace(/\D/g, '');
-		event.currentTarget.value = digitsOnly;
-		buildQuantities[shipId] = digitsOnly ? Number(digitsOnly) : undefined;
+		const capped = digitsOnly ? Math.min(Number(digitsOnly), maxBuildable(ship)) : undefined;
+		event.currentTarget.value = capped?.toString() ?? '';
+		buildQuantities[ship.id] = capped;
 	}
 </script>
 
@@ -56,12 +65,18 @@
 						pattern="[0-9]*"
 						placeholder="Count"
 						value={buildQuantities[ship.id] ?? ''}
-						oninput={(event) => sanitizeQuantityInput(ship.id, event)}
-						class="w-20 px-2 py-1.5 bg-white border border-[#444] rounded text-black text-sm text-center focus:outline-none focus:border-gray-400"
+						oninput={(event) => sanitizeQuantityInput(ship, event)}
+						disabled={maxBuildable(ship) === 0}
+						class="w-20 px-2 py-1.5 bg-white border border-[#444] rounded text-black text-sm text-center focus:outline-none focus:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 					<button
 						type="button"
-						class="w-20 px-4 py-1.5 bg-[#444] hover:bg-[#555] border border-[#666] rounded text-white text-sm font-medium"
+						disabled={!buildQuantities[ship.id]}
+						class="w-20 px-4 py-1.5 text-white border-0 rounded text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer {buildQuantities[
+							ship.id
+						]
+							? 'bg-green-600 hover:enabled:bg-green-400 active:enabled:bg-green-600'
+							: 'bg-red-800 hover:enabled:bg-red-400 active:enabled:bg-red-600'}"
 					>
 						Build
 					</button>
