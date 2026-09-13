@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 import { mapPlanetBuildings } from '$lib/server/mappers/building';
 import { createBuildingAction, deleteBuildingAction } from '$lib/server/planets';
 import { orderPlanetBuildings } from '$lib/server/views/building';
@@ -28,7 +28,7 @@ export const actions: Actions = {
 		console.log('result: ', JSON.stringify(result));
 
 		if (!result.success) {
-			return fail(500, { reason: result.reason });
+			error(500, result.reason);
 		}
 
 		return { success: true };
@@ -38,7 +38,7 @@ export const actions: Actions = {
 		const result = await deleteBuildingAction(params.id);
 
 		if (!result.success) {
-			return fail(500, { reason: result.reason });
+			error(500, result.reason);
 		}
 
 		return { success: true };

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { formatAmount, formatDuration } from '$lib/format';
 	import type { Ship } from '$lib/server/mappers/ship';
 	import type { PageData } from './$types';
@@ -6,6 +7,21 @@
 	let { data }: { data: PageData } = $props();
 
 	let buildQuantities: Record<string, number | undefined> = $state({});
+	let errorMessage = $state('');
+	let showError = $state(false);
+
+	$effect(() => {
+		if (page.form?.message) {
+			errorMessage = page.form.message;
+			showError = true;
+
+			const timer = window.setTimeout(() => {
+				showError = false;
+			}, 5000);
+
+			return () => window.clearTimeout(timer);
+		}
+	});
 
 	function maxBuildable(ship: Ship): number {
 		const limits = ship.costs
@@ -23,6 +39,12 @@
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
+	{#if showError}
+		<div class="px-4 py-3 bg-red-900/30 border border-red-600 rounded text-red-200 text-sm">
+			{errorMessage}
+		</div>
+	{/if}
+
 	{#each data.ships as ship (ship.id)}
 		<div
 			class="flex items-center justify-between px-5 py-4 bg-[#2a2a27] border border-[#444] rounded"
@@ -62,7 +84,7 @@
 					<input type="hidden" name="ship" value={ship.id} />
 					<input
 						type="text"
-						name="quantity"
+						name="count"
 						inputmode="numeric"
 						pattern="[0-9]*"
 						placeholder="Count"
