@@ -58,10 +58,14 @@ export function mapShipActionsOverview(
 	planet: DtosPlanetDtoResponse,
 	universe: DtosUniverseDtoResponse
 ): ShipActionsOverview {
-	const actions = planet.ship_actions;
-	if (!actions || actions.length === 0) {
+	const rawActions = planet.ship_actions;
+	if (!rawActions || rawActions.length === 0) {
 		return { active: null, queued: [] };
 	}
+
+	const actions = [...rawActions].sort(
+		(a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+	);
 
 	const activeAction = actions[0];
 	const activeShipDef = universe.ships.find((s) => s.id === activeAction.ship);
