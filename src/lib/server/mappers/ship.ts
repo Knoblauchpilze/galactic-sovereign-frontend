@@ -21,6 +21,84 @@ export type Ship = {
 	requirementsMet: boolean;
 };
 
+export type ActiveShipActionOverview = {
+	shipName: string;
+	count: number;
+	nextCompletionAt: string;
+	unitCompletionSeconds: number;
+	nextRemainingSeconds: number;
+	totalRemainingSeconds: number;
+};
+
+export type QueuedShipActionOverview = {
+	shipName: string;
+	count: number;
+	totalDurationSeconds: number;
+};
+
+export type ShipActionsOverview = {
+	active: ActiveShipActionOverview | null;
+	queued: QueuedShipActionOverview[];
+};
+
+export function parseIsoDuration(duration: string): number {
+	if (!duration) return 0;
+	const regex = /P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?/;
+	const matches = duration.match(regex);
+	if (!matches) return 0;
+	const days = parseFloat(matches[1] || '0');
+	const hours = parseFloat(matches[2] || '0');
+	const minutes = parseFloat(matches[3] || '0');
+	const seconds = parseFloat(matches[4] || '0');
+	return days * 86400 + hours * 3600 + minutes * 60 + seconds;
+}
+
+export function mapShipActionsOverview(
+	planet: DtosPlanetDtoResponse,
+	universe: DtosUniverseDtoResponse
+): ShipActionsOverview {
+	const actions = planet.ship_actions;
+	if (!actions || actions.length === 0) {
+		return { active: null, queued: [] };
+	}
+
+	const activeAction = actions[0];
+	const activeShipDef = universe.ships.find((s) => s.id === activeAction.ship);
+	const activeUnitSeconds = parseIsoDuration(activeAction.unit_completion_time);
+	const activeNextRemainingSeconds = Math.max(
+		0,
+		(new Date(activeAction.next_completion_at).getTime() - Date.now()) / 1000
+	);
+	const activeTotalRemainingSeconds =
+		activeNextRemainingSeconds + Math.max(0, activeAction.count - 1) * activeUnitSeconds;
+
+	const active: ActiveShipActionOverview = {
+		shipName: activeShipDef?.name ?? 'Unknown',
+		count: activeAction.count,
+		nextCompletionAt: activeAction.next_completion_at,
+		unitCompletionSeconds: activeUnitSeconds,
+		nextRemainingSeconds: activeNextRemainingSeconds,
+		totalRemainingSeconds: activeTotalRemainingSeconds
+	};
+
+	const queued: QueuedShipActionOverview[] = [];
+
+	for (let i = 1; i < actions.length; i++) {
+		const action = actions[i];
+		const shipDef = universe.ships.find((s) => s.id === action.ship);
+		const unitSeconds = parseIsoDuration(action.unit_completion_time);
+		const totalDurationSeconds = action.count * unitSeconds;
+
+		queued.push({
+			shipName: shipDef?.name ?? 'Unknown',
+			count: action.count,
+			totalDurationSeconds
+		});
+	}
+
+	return { active, queued };
+}
+
 export function mapPlanetShips(
 	planet: DtosPlanetDtoResponse,
 	universe: DtosUniverseDtoResponse

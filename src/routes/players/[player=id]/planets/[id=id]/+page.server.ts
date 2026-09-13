@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { mapCoordinate } from '$lib/server/mappers/planet';
 import { mapBuildingActionOverview } from '$lib/server/mappers/building';
+import { mapShipActionsOverview } from '$lib/server/mappers/ship';
 import { deleteBuildingAction } from '$lib/server/planets';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -21,7 +22,11 @@ export const load: PageServerLoad = async ({ parent }) => {
 		totalFields: planet.fields
 	};
 
-	return { overview, buildingAction: mapBuildingActionOverview(planet, universe) };
+	return {
+		overview,
+		buildingAction: mapBuildingActionOverview(planet, universe),
+		shipActions: mapShipActionsOverview(planet, universe)
+	};
 };
 
 export const actions: Actions = {

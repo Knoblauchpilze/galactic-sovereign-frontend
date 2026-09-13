@@ -4,29 +4,61 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-	let remainingSeconds = $state<number>();
+	let buildingRemainingSeconds = $state<number>();
+	let shipNextRemainingSeconds = $state<number>();
+	let shipTotalRemainingSeconds = $state<number>();
 
 	$effect(() => {
 		const buildingAction = data.buildingAction;
-		if (!buildingAction) {
-			remainingSeconds = undefined;
+		const activeShipAction = data.shipActions.active;
+
+		if (!buildingAction && !activeShipAction) {
+			buildingRemainingSeconds = undefined;
+			shipNextRemainingSeconds = undefined;
+			shipTotalRemainingSeconds = undefined;
 			return;
 		}
 
 		let invalidated = false;
-		const completedAt = new Date(buildingAction.completedAt).getTime();
-		const updateRemainingSeconds = () => {
-			remainingSeconds = Math.max(0, (completedAt - Date.now()) / 1000);
+		const buildingCompletedAt = buildingAction
+			? new Date(buildingAction.completedAt).getTime()
+			: null;
+		const shipNextCompletionAt = activeShipAction
+			? new Date(activeShipAction.nextCompletionAt).getTime()
+			: null;
 
-			if (!invalidated && remainingSeconds === 0) {
-				invalidated = true;
-				void invalidateAll();
+		const updateTimers = () => {
+			const now = Date.now();
+
+			if (buildingCompletedAt !== null) {
+				buildingRemainingSeconds = Math.max(0, (buildingCompletedAt - now) / 1000);
+				if (!invalidated && buildingRemainingSeconds === 0) {
+					invalidated = true;
+					void invalidateAll();
+				}
+			} else {
+				buildingRemainingSeconds = undefined;
+			}
+
+			if (shipNextCompletionAt !== null && activeShipAction) {
+				shipNextRemainingSeconds = Math.max(0, (shipNextCompletionAt - now) / 1000);
+				shipTotalRemainingSeconds =
+					shipNextRemainingSeconds +
+					Math.max(0, activeShipAction.count - 1) * activeShipAction.unitCompletionSeconds;
+
+				if (!invalidated && shipNextRemainingSeconds === 0) {
+					invalidated = true;
+					void invalidateAll();
+				}
+			} else {
+				shipNextRemainingSeconds = undefined;
+				shipTotalRemainingSeconds = undefined;
 			}
 		};
 
-		updateRemainingSeconds();
+		updateTimers();
 
-		const interval = window.setInterval(updateRemainingSeconds, 1000);
+		const interval = window.setInterval(updateTimers, 1000);
 
 		return () => {
 			window.clearInterval(interval);
@@ -44,25 +76,32 @@
 
 		<dl class="flex flex-col">
 			<div class="flex items-center justify-between px-5 py-3">
-				<dt class="text-sky-400 text-sm font-medium">Fields</dt>
+				<dt class="text-sky-400 text-base font-medium">Fields</dt>
 				<dd class="text-white text-sm">
 					{data.overview.usedFields}/{data.overview.totalFields}
 				</dd>
 			</div>
 		</dl>
 
+		<header class="px-5 py-3 border-t border-[#444]">
+			<h2 class="text-sky-400 text-base font-medium">Building action</h2>
+		</header>
+
 		{#if data.buildingAction}
 			<div class="flex items-center justify-between min-h-16 px-5 py-3 border-t border-[#444]">
 				<div class="flex flex-col gap-1">
 					<div class="flex items-baseline gap-2">
-						<span class="text-white font-medium capitalize">{data.buildingAction.buildingName}</span
+						<span class="text-white text-sm font-medium capitalize"
+							>{data.buildingAction.buildingName}</span
 						>
 						<span class="text-gray-400 text-xs uppercase tracking-wider">
 							Level {data.buildingAction.currentLevel} → {data.buildingAction.desiredLevel}
 						</span>
 					</div>
 					<span class="text-gray-400 text-xs">
-						Remaining: {formatDuration(remainingSeconds ?? data.buildingAction.remainingSeconds)}
+						Remaining: {formatDuration(
+							buildingRemainingSeconds ?? data.buildingAction.remainingSeconds
+						)}
 					</span>
 				</div>
 				<form method="POST" action="?/cancel">
@@ -77,6 +116,57 @@
 		{:else}
 			<div class="flex items-center min-h-16 px-5 py-3 border-t border-[#444]">
 				<span class="text-gray-400 text-sm">No building action at the moment</span>
+			</div>
+		{/if}
+
+		<header class="px-5 py-3 border-t border-[#444]">
+			<h2 class="text-sky-400 text-base font-medium">Ship actions</h2>
+		</header>
+
+		{#if data.shipActions.active}
+			<div class="flex items-center justify-between min-h-16 px-5 py-3 border-t border-[#444]">
+				<div class="flex flex-col gap-1">
+					<div class="flex items-baseline gap-2">
+						<span class="text-white text-sm font-medium capitalize"
+							>{data.shipActions.active.shipName}</span
+						>
+						<span class="text-gray-400 text-xs uppercase tracking-wider">
+							Amount: {data.shipActions.active.count}
+						</span>
+					</div>
+					<div class="flex flex-col gap-0.5 text-xs text-gray-400">
+						<span>
+							Next completion: {formatDuration(
+								shipNextRemainingSeconds ?? data.shipActions.active.nextRemainingSeconds
+							)}
+						</span>
+						<span>
+							Total remaining: {formatDuration(
+								shipTotalRemainingSeconds ?? data.shipActions.active.totalRemainingSeconds
+							)}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			{#each data.shipActions.queued as shipAction, index (index)}
+				<div class="flex items-center justify-between min-h-16 px-5 py-3 border-t border-[#444]">
+					<div class="flex flex-col gap-1">
+						<div class="flex items-baseline gap-2">
+							<span class="text-white text-sm font-medium capitalize">{shipAction.shipName}</span>
+							<span class="text-gray-400 text-xs uppercase tracking-wider">
+								Amount: {shipAction.count}
+							</span>
+						</div>
+						<div class="flex flex-col gap-0.5 text-xs text-gray-400">
+							<span>Total duration: {formatDuration(shipAction.totalDurationSeconds)}</span>
+						</div>
+					</div>
+				</div>
+			{/each}
+		{:else}
+			<div class="flex items-center min-h-16 px-5 py-3 border-t border-[#444]">
+				<span class="text-gray-400 text-sm">No ship action at the moment</span>
 			</div>
 		{/if}
 	</section>
