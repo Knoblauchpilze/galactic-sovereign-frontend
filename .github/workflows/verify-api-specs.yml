@@ -7,6 +7,7 @@ on:
       - 'package-lock.json'
       - 'build/**'
       - 'src/**'
+      - 'specs/**'
       - 'static/**'
 
 jobs:
