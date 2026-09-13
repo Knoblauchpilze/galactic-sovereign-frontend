@@ -58,9 +58,11 @@
 						{formatDuration(ship.completionSeconds)}
 					</span>
 				</div>
-				<div class="flex flex-col gap-2">
+				<form method="POST" action="?/build" class="flex flex-col gap-2">
+					<input type="hidden" name="ship" value={ship.id} />
 					<input
 						type="text"
+						name="quantity"
 						inputmode="numeric"
 						pattern="[0-9]*"
 						placeholder="Count"
@@ -70,7 +72,7 @@
 						class="w-20 px-2 py-1.5 bg-white border border-[#444] rounded text-black text-sm text-center focus:outline-none focus:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
 					/>
 					<button
-						type="button"
+						type="submit"
 						disabled={!buildQuantities[ship.id]}
 						class="w-20 px-4 py-1.5 text-white border-0 rounded text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer {buildQuantities[
 							ship.id
@@ -80,7 +82,7 @@
 					>
 						Build
 					</button>
-				</div>
+				</form>
 			</div>
 		</div>
 	{/each}

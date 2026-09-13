@@ -1,5 +1,5 @@
 import { mapPlanetShips } from '$lib/server/mappers/ship';
-import type { PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {
 	const { planet, universe } = await parent();
@@ -7,4 +7,10 @@ export const load: PageServerLoad = async ({ parent }) => {
 	return {
 		ships: mapPlanetShips(planet, universe)
 	};
+};
+
+export const actions: Actions = {
+	build: async () => {
+		return { success: true };
+	}
 };
