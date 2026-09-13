@@ -18,6 +18,7 @@ export type Ship = {
 	available: number;
 	costs: ShipCost[];
 	completionSeconds: number;
+	requirementsMet: boolean;
 };
 
 export function mapPlanetShips(
@@ -34,8 +35,16 @@ export function mapPlanetShips(
 			available:
 				planet.resources.find((resource) => resource.resource === cost.resource)?.amount ?? 0
 		})),
-		completionSeconds: mapCompletionSeconds(ship, planet, universe)
+		completionSeconds: mapCompletionSeconds(ship, planet, universe),
+		requirementsMet: mapRequirementsMet(ship, planet)
 	}));
+}
+
+function mapRequirementsMet(ship: DtosShipDtoResponse, planet: DtosPlanetDtoResponse): boolean {
+	return ship.building_requirements.every((requirement) => {
+		const level = planet.buildings.find((b) => b.building === requirement.building)?.level ?? 0;
+		return level >= requirement.level;
+	});
 }
 
 function calculateShipSpeedupFactor(
