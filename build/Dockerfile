@@ -1,4 +1,4 @@
-FROM node:24 AS builder
+FROM node:26 AS builder
 ARG API_BASE_URL="http://galactic-sovereign-service:80/v1/galactic-sovereign"
 ARG USER_API_BASE_URL="http://user-service:80/v1/users"
 WORKDIR /build
@@ -8,7 +8,7 @@ RUN echo "GAME_SERVICE_URL='${API_BASE_URL}'" >> .env
 RUN npm install
 RUN npm run build
 
-FROM node:24-alpine3.23
+FROM node:26-alpine3.24
 ARG GIT_COMMIT_HASH="undefined"
 ARG SERVER_ORIGIN="http://localhost:3001"
 ARG NODE_PORT=3001
