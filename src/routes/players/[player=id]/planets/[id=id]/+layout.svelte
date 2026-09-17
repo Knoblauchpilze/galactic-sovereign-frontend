@@ -39,6 +39,13 @@
 				player: data.player,
 				id: data.id
 			})
+		},
+		{
+			label: 'Galaxy',
+			href: resolve('/players/[player=id]/planets/[id=id]/galaxy', {
+				player: data.player,
+				id: data.id
+			})
 		}
 	]);
 
