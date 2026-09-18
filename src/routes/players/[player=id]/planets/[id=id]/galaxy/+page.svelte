@@ -91,7 +91,7 @@
 	</section>
 
 	<section class="flex flex-col bg-[#2a2a27] border border-[#444] rounded">
-		{#each Array(5) as _, index (index)}
+		{#each [0, 1, 2, 3, 4] as index (index)}
 			<div class="h-14 border-b border-[#444] last:border-b-0"></div>
 		{/each}
 	</section>
