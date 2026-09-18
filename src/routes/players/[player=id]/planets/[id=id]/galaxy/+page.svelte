@@ -90,9 +90,22 @@
 		</div>
 	</section>
 
-	<section class="flex flex-col bg-[#2a2a27] border border-[#444] rounded">
-		{#each [0, 1, 2, 3, 4] as index (index)}
-			<div class="h-14 border-b border-[#444] last:border-b-0"></div>
+	<section class="overflow-x-auto bg-[#2a2a27] border border-[#444] rounded">
+		<div
+			class="grid min-w-2xl grid-cols-[6rem_minmax(12rem,1fr)_minmax(20rem,2fr)] border-b border-[#444] px-5 py-2 text-xs font-semibold uppercase text-gray-400"
+		>
+			<span>Orbit</span>
+			<span>Planet</span>
+			<span>Player</span>
+		</div>
+		{#each data.orbits as orbit (orbit.position)}
+			<div
+				class="grid min-h-10 min-w-2xl grid-cols-[6rem_minmax(12rem,1fr)_minmax(20rem,2fr)] items-center border-b border-[#444] px-5 py-2 text-sm text-white last:border-b-0"
+			>
+				<span>{orbit.position}</span>
+				<span>{orbit.planet?.name ?? '-'}</span>
+				<span class="font-mono text-gray-300">{orbit.planet?.player ?? '-'}</span>
+			</div>
 		{/each}
 	</section>
 </main>
