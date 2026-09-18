@@ -18,12 +18,12 @@ export const load: PageServerLoad = async ({ parent, url }) => {
 	const selectedGalaxy = constrainSearchParam(
 		url.searchParams.get('galaxy'),
 		universe.topology.galaxies,
-		planet.coordinate.galaxy
+		planet.coordinate.galaxy + 1
 	);
 	const selectedSolarSystem = constrainSearchParam(
 		url.searchParams.get('solarSystem'),
 		universe.topology.solar_systems,
-		planet.coordinate.solar_system
+		planet.coordinate.solar_system + 1
 	);
 
 	const solarSystem = await getSolarSystem(
