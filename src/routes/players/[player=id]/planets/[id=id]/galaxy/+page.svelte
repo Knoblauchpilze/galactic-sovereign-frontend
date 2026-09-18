@@ -5,8 +5,8 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-	let galaxy = $state(1);
-	let solarSystem = $state(1);
+	let galaxy = $derived(data.selectedGalaxy);
+	let solarSystem = $derived(data.selectedSolarSystem);
 
 	// keep selectors in sync when navigation (e.g. back/forward) changes the loaded data
 	$effect(() => {
