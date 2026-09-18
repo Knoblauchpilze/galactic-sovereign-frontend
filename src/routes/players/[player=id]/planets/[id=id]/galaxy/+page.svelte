@@ -1,9 +1,18 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 	let galaxy = $state(1);
 	let solarSystem = $state(1);
+
+	// keep selectors in sync when navigation (e.g. back/forward) changes the loaded data
+	$effect(() => {
+		galaxy = data.selectedGalaxy;
+		solarSystem = data.selectedSolarSystem;
+	});
 
 	const galaxyLimit = $derived(data.universe.topology.galaxies);
 	const solarSystemLimit = $derived(data.universe.topology.solar_systems);
@@ -19,6 +28,20 @@
 	function changeValue(value: number, amount: number, limit: number) {
 		return constrainValue(value + amount, limit);
 	}
+
+	function reloadGalaxyView() {
+		goto(
+			resolve(
+				`/players/[player=id]/planets/[id=id]/galaxy?galaxy=${galaxy}&solarSystem=${solarSystem}`,
+				{ player: page.params.player!, id: page.params.id! }
+			),
+			{
+				keepFocus: true,
+				noScroll: true,
+				replaceState: true
+			}
+		);
+	}
 </script>
 
 <main class="flex flex-col gap-4 px-6 py-6">
@@ -31,7 +54,10 @@
 				<button
 					type="button"
 					aria-label="Previous galaxy"
-					onclick={() => (galaxy = changeValue(galaxy, -1, galaxyLimit))}
+					onclick={() => {
+						galaxy = changeValue(galaxy, -1, galaxyLimit);
+						reloadGalaxyView();
+					}}
 					class="flex items-center justify-center w-9 h-9 rounded-l text-white bg-[#333] border border-[#444] hover:bg-[#444] cursor-pointer"
 				>
 					&#8592;
@@ -43,13 +69,19 @@
 					max={galaxyLimit}
 					step="1"
 					bind:value={galaxy}
-					onchange={() => (galaxy = constrainValue(galaxy, galaxyLimit))}
+					onchange={() => {
+						galaxy = constrainValue(galaxy, galaxyLimit);
+						reloadGalaxyView();
+					}}
 					class="w-16 h-9 appearance-none text-center text-white bg-[#21211f] border-y border-[#444] outline-none"
 				/>
 				<button
 					type="button"
 					aria-label="Next galaxy"
-					onclick={() => (galaxy = changeValue(galaxy, 1, galaxyLimit))}
+					onclick={() => {
+						galaxy = changeValue(galaxy, 1, galaxyLimit);
+						reloadGalaxyView();
+					}}
 					class="flex items-center justify-center w-9 h-9 rounded-r text-white bg-[#333] border border-[#444] hover:bg-[#444] cursor-pointer"
 				>
 					&#8594;
@@ -63,7 +95,10 @@
 				<button
 					type="button"
 					aria-label="Previous solar system"
-					onclick={() => (solarSystem = changeValue(solarSystem, -1, solarSystemLimit))}
+					onclick={() => {
+						solarSystem = changeValue(solarSystem, -1, solarSystemLimit);
+						reloadGalaxyView();
+					}}
 					class="flex items-center justify-center w-9 h-9 rounded-l text-white bg-[#333] border border-[#444] hover:bg-[#444] cursor-pointer"
 				>
 					&#8592;
@@ -75,13 +110,19 @@
 					max={solarSystemLimit}
 					step="1"
 					bind:value={solarSystem}
-					onchange={() => (solarSystem = constrainValue(solarSystem, solarSystemLimit))}
+					onchange={() => {
+						solarSystem = constrainValue(solarSystem, solarSystemLimit);
+						reloadGalaxyView();
+					}}
 					class="w-16 h-9 appearance-none text-center text-white bg-[#21211f] border-y border-[#444] outline-none"
 				/>
 				<button
 					type="button"
 					aria-label="Next solar system"
-					onclick={() => (solarSystem = changeValue(solarSystem, 1, solarSystemLimit))}
+					onclick={() => {
+						solarSystem = changeValue(solarSystem, 1, solarSystemLimit);
+						reloadGalaxyView();
+					}}
 					class="flex items-center justify-center w-9 h-9 rounded-r text-white bg-[#333] border border-[#444] hover:bg-[#444] cursor-pointer"
 				>
 					&#8594;
