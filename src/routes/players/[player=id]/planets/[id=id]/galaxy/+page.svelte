@@ -145,7 +145,7 @@
 			>
 				<span>{orbit.position}</span>
 				<span>{orbit.planet?.name ?? '-'}</span>
-				<span class="font-mono text-gray-300">{orbit.planet?.player ?? '-'}</span>
+				<span class="font-mono text-gray-300">{orbit.planet?.player_name ?? '-'}</span>
 			</div>
 		{/each}
 	</section>
