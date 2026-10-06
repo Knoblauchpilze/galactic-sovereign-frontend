@@ -1,7 +1,7 @@
 import { error, fail } from '@sveltejs/kit';
-import { mapPlanetBuildings } from '$lib/server/mappers/building';
-import { createBuildingAction, deleteBuildingAction } from '$lib/server/planets';
-import { orderPlanetBuildings } from '$lib/server/views/building';
+import { mapPlanetBuildings } from '#lib/server/mappers/building';
+import { createBuildingAction, deleteBuildingAction } from '#lib/server/planets';
+import { orderPlanetBuildings } from '#lib/server/views/building';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {

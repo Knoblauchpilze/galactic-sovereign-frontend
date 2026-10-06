@@ -1,4 +1,4 @@
-import type { Building } from '$lib/server/mappers/building';
+import type { Building } from '#lib/server/mappers/building';
 
 const prioritizedBuildingOrder = [
 	'metal mine',

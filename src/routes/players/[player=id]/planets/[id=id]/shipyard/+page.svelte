@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { formatAmount, formatDuration } from '$lib/format';
-	import type { Ship } from '$lib/server/mappers/ship';
+	import { formatAmount, formatDuration } from '#lib/format';
+	import type { Ship } from '#lib/server/mappers/ship';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();

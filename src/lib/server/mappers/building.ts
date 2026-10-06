@@ -2,7 +2,7 @@ import type {
 	DtosBuildingDtoResponse,
 	DtosPlanetDtoResponse,
 	DtosUniverseDtoResponse
-} from '$lib/api/galactic-sovereign/client';
+} from '#lib/api/galactic-sovereign/client';
 
 export type BuildingActionOverview = {
 	buildingName: string;

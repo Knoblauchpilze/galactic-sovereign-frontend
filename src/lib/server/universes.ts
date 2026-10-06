@@ -1,9 +1,9 @@
-import { GAME_SERVICE_URL } from '$env/static/private';
-import { Api } from '$lib/api/galactic-sovereign/client';
+import { GAME_SERVICE_URL } from '$app/env/private';
+import { Api } from '#lib/api/galactic-sovereign/client';
 import type {
 	DtosSolarSystemDtoResponse,
 	DtosUniverseDtoResponse
-} from '$lib/api/galactic-sovereign/client';
+} from '#lib/api/galactic-sovereign/client';
 
 export async function getSolarSystem(
 	universeId: string,

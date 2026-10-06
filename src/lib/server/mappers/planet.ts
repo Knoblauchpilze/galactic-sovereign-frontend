@@ -1,7 +1,7 @@
 import type {
 	DtosPlanetDtoResponse,
 	DtosUniverseDtoResponse
-} from '$lib/api/galactic-sovereign/client';
+} from '#lib/api/galactic-sovereign/client';
 
 export type Resource = {
 	name: string;

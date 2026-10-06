@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
-	import { formatDuration } from '$lib/format';
+	import { formatDuration } from '#lib/format';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();

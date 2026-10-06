@@ -1,4 +1,4 @@
-import type { DtosSolarSystemDtoResponse } from '$lib/api/galactic-sovereign/client';
+import type { DtosSolarSystemDtoResponse } from '#lib/api/galactic-sovereign/client';
 
 type SolarSystemPlanet = NonNullable<DtosSolarSystemDtoResponse['planets']>[number];
 

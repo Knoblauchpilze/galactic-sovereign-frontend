@@ -1,10 +1,10 @@
 import { error } from '@sveltejs/kit';
-import { getPlanet } from '$lib/server/planets';
-import { getPlayer } from '$lib/server/players';
-import { mapPlanetResources } from '$lib/server/mappers/planet';
-import { mapPlayerPlanets } from '$lib/server/mappers/players';
-import { orderPlanetResources } from '$lib/server/views/planet';
-import { getUniverse } from '$lib/server/universes';
+import { getPlanet } from '#lib/server/planets';
+import { getPlayer } from '#lib/server/players';
+import { mapPlanetResources } from '#lib/server/mappers/planet';
+import { mapPlayerPlanets } from '#lib/server/mappers/players';
+import { orderPlanetResources } from '#lib/server/views/planet';
+import { getUniverse } from '#lib/server/universes';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ params }) => {

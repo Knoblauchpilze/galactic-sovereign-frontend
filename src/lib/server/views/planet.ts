@@ -1,4 +1,4 @@
-import type { Resource } from '$lib/server/mappers/planet';
+import type { Resource } from '#lib/server/mappers/planet';
 
 const resourceOrder = ['metal', 'crystal', 'deuterium'];
 
