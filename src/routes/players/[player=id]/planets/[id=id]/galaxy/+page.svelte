@@ -36,9 +36,8 @@
 				{ player: page.params.player!, id: page.params.id! }
 			),
 			{
-				keepFocus: true,
-				noScroll: true,
-				replaceState: true
+				reset: false,
+				replace: true
 			}
 		);
 	}
