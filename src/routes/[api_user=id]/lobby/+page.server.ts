@@ -1,6 +1,6 @@
-import { mapLobbyPlayers } from '$lib/server/mappers/players';
-import { getPlayersByApiUser } from '$lib/server/players';
-import { getUniverses } from '$lib/server/universes';
+import { mapLobbyPlayers } from '#lib/server/mappers/players';
+import { getPlayersByApiUser } from '#lib/server/players';
+import { getUniverses } from '#lib/server/universes';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {

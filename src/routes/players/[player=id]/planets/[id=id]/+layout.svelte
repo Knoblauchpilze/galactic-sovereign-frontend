@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { formatAmount, formatProduction, formatStorage } from '$lib/format';
+	import { formatAmount, formatProduction, formatStorage } from '#lib/format';
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: import('svelte').Snippet } = $props();

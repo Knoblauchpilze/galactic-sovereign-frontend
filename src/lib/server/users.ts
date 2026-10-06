@@ -1,6 +1,6 @@
-import { USER_SERVICE_URL } from '$env/static/private';
-import { Api } from '$lib/api/user-service/client';
-import type { CommunicationUserDtoRequest } from '$lib/api/user-service/client';
+import { USER_SERVICE_URL } from '$app/env/private';
+import { Api } from '#lib/api/user-service/client';
+import type { CommunicationUserDtoRequest } from '#lib/api/user-service/client';
 
 export type LoginSuccess = {
 	success: true;

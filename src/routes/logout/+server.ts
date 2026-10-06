@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { logout } from '$lib/server/users';
+import { logout } from '#lib/server/users';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {

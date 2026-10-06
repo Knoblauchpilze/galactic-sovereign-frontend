@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { resolve } from '$app/paths';
-import { createPlayer, getPlayersByApiUser } from '$lib/server/players';
-import { getUniverses } from '$lib/server/universes';
+import { createPlayer, getPlayersByApiUser } from '#lib/server/players';
+import { getUniverses } from '#lib/server/universes';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {

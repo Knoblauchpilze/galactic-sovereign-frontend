@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
-import { mapSolarSystemOrbits } from '$lib/server/mappers/solar_system';
-import { getSolarSystem } from '$lib/server/universes';
+import { mapSolarSystemOrbits } from '#lib/server/mappers/solar_system';
+import { getSolarSystem } from '#lib/server/universes';
 import type { PageServerLoad } from './$types';
 
 function constrainSearchParam(value: string | null, limit: number, fallback: number) {

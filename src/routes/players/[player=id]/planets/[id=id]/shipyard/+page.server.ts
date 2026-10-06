@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
-import { mapPlanetShips } from '$lib/server/mappers/ship';
-import { createShipAction } from '$lib/server/planets';
+import { mapPlanetShips } from '#lib/server/mappers/ship';
+import { createShipAction } from '#lib/server/planets';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ parent }) => {

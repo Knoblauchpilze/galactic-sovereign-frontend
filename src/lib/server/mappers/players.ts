@@ -2,7 +2,7 @@ import type {
 	DtosPlayerDtoResponse,
 	DtosPlayerPlanetDtoResponse,
 	DtosUniverseDtoResponse
-} from '$lib/api/galactic-sovereign/client';
+} from '#lib/api/galactic-sovereign/client';
 import { mapCoordinate } from './planet';
 
 export type LobbyPlayer = {
