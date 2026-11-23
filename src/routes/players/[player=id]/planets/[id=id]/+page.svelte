@@ -91,9 +91,9 @@
 			<div class="flex items-center justify-between min-h-16 px-5 py-3 border-t border-[#444]">
 				<div class="flex flex-col gap-1">
 					<div class="flex items-baseline gap-2">
-						<span class="text-white text-sm font-medium capitalize"
-							>{data.buildingAction.buildingName}</span
-						>
+						<span class="text-white text-sm font-medium capitalize">
+							{data.buildingAction.buildingName}
+						</span>
 						<span class="text-gray-400 text-xs uppercase tracking-wider">
 							Level {data.buildingAction.currentLevel} → {data.buildingAction.desiredLevel}
 						</span>
@@ -127,9 +127,9 @@
 			<div class="flex items-center justify-between min-h-16 px-5 py-3 border-t border-[#444]">
 				<div class="flex flex-col gap-1">
 					<div class="flex items-baseline gap-2">
-						<span class="text-white text-sm font-medium capitalize"
-							>{data.shipActions.active.shipName}</span
-						>
+						<span class="text-white text-sm font-medium capitalize">
+							{data.shipActions.active.shipName}
+						</span>
 						<span class="text-gray-400 text-xs uppercase tracking-wider">
 							Amount: {data.shipActions.active.count}
 						</span>

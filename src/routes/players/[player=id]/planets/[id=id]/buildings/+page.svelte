@@ -55,9 +55,9 @@
 					<div
 						class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 					>
-						<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-							>Required for level {building.level + 1}:</span
-						>
+						<span class="text-gray-400 text-[10px] uppercase tracking-wider">
+							Required for level {building.level + 1}:
+						</span>
 						<div class="flex flex-col items-start gap-0.5">
 							{#each building.costs as cost (cost.name)}
 								<span
@@ -72,9 +72,9 @@
 						<div
 							class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 						>
-							<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-								>Production gain for level {building.level + 1}:</span
-							>
+							<span class="text-gray-400 text-[10px] uppercase tracking-wider">
+								Production gain for level {building.level + 1}:
+							</span>
 							<div class="flex flex-col items-start gap-0.5">
 								{#each building.productionGains as gain (gain.name)}
 									<span class="text-xs text-green-400">
@@ -88,9 +88,9 @@
 						<div
 							class="flex flex-col items-start gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded w-fit"
 						>
-							<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-								>Storage gain for level {building.level + 1}:</span
-							>
+							<span class="text-gray-400 text-[10px] uppercase tracking-wider">
+								Storage gain for level {building.level + 1}:
+							</span>
 							<div class="flex flex-col items-start gap-0.5">
 								{#each building.storageGains as gain (gain.name)}
 									<span class="text-xs text-green-400">
@@ -107,9 +107,9 @@
 					<div
 						class="flex flex-col items-center gap-0.5 px-3 py-1.5 bg-[#333] border border-[#444] rounded"
 					>
-						<span class="text-gray-400 text-[10px] uppercase tracking-wider"
-							>Upgrade complete in</span
-						>
+						<span class="text-gray-400 text-[10px] uppercase tracking-wider">
+							Upgrade complete in
+						</span>
 						<span class="text-white text-sm font-medium">
 							{formatDuration(remainingSeconds)}
 						</span>
