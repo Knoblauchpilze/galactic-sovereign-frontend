@@ -52,13 +52,13 @@
 			<div class="flex flex-col gap-2">
 				<div class="flex items-baseline gap-2">
 					<span class="text-white font-medium capitalize">{ship.name}</span>
-					<span class="text-gray-400 text-xs uppercase tracking-wider"
-						>{formatAmount(ship.available)} available</span
-					>
+					<span class="text-gray-400 text-xs uppercase tracking-wider">
+						{formatAmount(ship.available)} available
+					</span>
 					{#if ship.queued > 0}
-						<span class="text-green-600 text-xs uppercase tracking-wider"
-							>({formatAmount(ship.queued)} queued)</span
-						>
+						<span class="text-green-600 text-xs uppercase tracking-wider">
+							({formatAmount(ship.queued)} queued)
+						</span>
 					{/if}
 				</div>
 				<div
